@@ -5,7 +5,11 @@ defmodule YamlElixir.Mapper do
     yaml
       |> Enum.map(&_to_map(&1))
       |> List.last
+      |> extract_map
   end
+
+  defp extract_map(nil), do: %{}
+  defp extract_map(map), do: map
 
   defp _to_map({:yamerl_doc, document}), do: _to_map(document)
 
