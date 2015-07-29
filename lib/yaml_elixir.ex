@@ -1,0 +1,2 @@
+defmodule YamlElixir do
+end
