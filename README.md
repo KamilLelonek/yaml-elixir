@@ -14,7 +14,7 @@ Add `Yaml Elixir` as a dependency in your `mix.exs` file.
 defp deps do
   [
      # ...
-    { :yaml_elixir, "~> 0.0.1" }
+    { :yaml_elixir, "~> 1.0.0" }
   ]
 end
 ```
