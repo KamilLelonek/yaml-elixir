@@ -14,7 +14,8 @@ Add `Yaml Elixir` as a dependency in your `mix.exs` file.
 defp deps do
   [
      # ...
-    { :yaml_elixir, "~> 1.0.0" }
+    { :yaml_elixir, "~> 1.0.0" },
+    { :yamerl, github: "yakaz/yamerl" }
   ]
 end
 ```
