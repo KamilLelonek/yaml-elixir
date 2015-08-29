@@ -14,8 +14,9 @@ defmodule YamlElixir do
 
   def read_from_file(path) do
     path
-      |> read_all_from_file
+      |> :yamerl_constr.file(detailed_constr: true)
       |> List.last
+      |> YamlElixir.Mapper.process
   end
 
   def read_all_from_string(string) do
@@ -26,7 +27,8 @@ defmodule YamlElixir do
 
   def read_from_string(string) do
     string
-    |> read_all_from_string
+    |> :yamerl_constr.string(detailed_constr: true)
     |> List.last
+    |> YamlElixir.Mapper.process
   end
 end
