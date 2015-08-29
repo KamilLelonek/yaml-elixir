@@ -1,11 +1,11 @@
 defmodule YamlElixir.Mapper do
-  def process([]), do: %{}
+
+  def process([]), do: [%{}]
 
   def process(yaml) when is_list(yaml) do
     yaml
-      |> Enum.map(&_to_map(&1))
-      |> List.last
-      |> extract_map
+      |> Enum.map(&_to_map/1)
+      |> Enum.map(&extract_map/1)
   end
 
   defp extract_map(nil), do: %{}

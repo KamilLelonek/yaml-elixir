@@ -6,13 +6,27 @@ defmodule YamlElixir do
   defp children, do: []
   defp options,  do: [strategy: :one_for_one, name: Figaro.Supervisor]
 
+  def read_all_from_file(path) do
+    path
+      |> :yamerl_constr.file(detailed_constr: true)
+      |> YamlElixir.Mapper.process
+  end
+
   def read_from_file(path) do
-    :yamerl_constr.file(path, detailed_constr: true)
+    path
+      |> read_all_from_file
+      |> List.last
+  end
+
+  def read_all_from_string(string) do
+    string
+      |> :yamerl_constr.string(detailed_constr: true)
       |> YamlElixir.Mapper.process
   end
 
   def read_from_string(string) do
-    :yamerl_constr.string(string, detailed_constr: true)
-      |> YamlElixir.Mapper.process
+    string
+    |> read_all_from_string
+    |> List.last
   end
 end
