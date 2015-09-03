@@ -4,7 +4,7 @@ defmodule YamlElixir do
   end
 
   defp children, do: []
-  defp options,  do: [strategy: :one_for_one, name: Figaro.Supervisor]
+  defp options,  do: [strategy: :one_for_one, name: YamlElixir.Supervisor]
 
   def read_all_from_file(path) do
     path
