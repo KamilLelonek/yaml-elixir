@@ -84,7 +84,6 @@ iex(1)>     yaml = """
 "  a: a\n  b: 1\n  c: true\n  d: ~\n  e: nil\n"
 iex(2)> YamlElixir.read_from_string yaml, atoms: true
 %{:f => :atom, "a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}
-
 ```
 
 Atoms are not garbage collected by BEAM, so be careful with this option, and
