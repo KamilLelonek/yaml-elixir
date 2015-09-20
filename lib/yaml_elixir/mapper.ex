@@ -32,7 +32,7 @@ defmodule YamlElixir.Mapper do
   defp _to_map({ :yamerl_null, :yamerl_node_null, _tag, _loc }, _options),
   do:  nil
 
-  defp _to_map(node = { _yamler_element, _yamler_node_element, _tag, _loc, elem }, _options), do: elem
+  defp _to_map({ _yamler_element, _yamler_node_element, _tag, _loc, elem }, _options), do: elem
 
   defp _tuples_to_map([], map, _options),
   do:  map
@@ -46,5 +46,5 @@ defmodule YamlElixir.Mapper do
 
   defp key_for(<< ?:, name :: binary >>, atoms: true), do: String.to_atom(name)
 
-  defp key_for(name, options), do: name
+  defp key_for(name, _options), do: name
 end
