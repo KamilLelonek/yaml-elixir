@@ -3,3 +3,4 @@ b: 1
 c: true
 d: ~
 e: []
+:f: :atom

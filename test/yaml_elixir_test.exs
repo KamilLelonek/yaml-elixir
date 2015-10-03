@@ -10,7 +10,11 @@ defmodule YamlElixirTest do
   end
 
   test "should parse flat file" do
-    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => []}
+    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], ":f" => ":atom"}
+  end
+
+  test "should parse flat file with atoms option" do
+    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], :f => :atom}, atoms: true
   end
 
   test "should parse nested file" do
@@ -91,21 +95,21 @@ defmodule YamlElixirTest do
     File.cwd! |> Path.join("test/fixtures/#{file_name}.yml")
   end
 
-  defp assert_parse_multi_file(file_name, result) do
+  defp assert_parse_multi_file(file_name, result, options \\ []) do
     path = test_data(file_name)
-    assert YamlElixir.read_all_from_file(path) == result
+    assert YamlElixir.read_all_from_file(path, options) == result
   end
 
-  defp assert_parse_file(file_name, result) do
+  defp assert_parse_file(file_name, result, options \\ []) do
     path = test_data(file_name)
-    assert YamlElixir.read_from_file(path) == result
+    assert YamlElixir.read_from_file(path, options) == result
   end
 
-  defp assert_parse_multi_string(string, result) do
-    assert YamlElixir.read_all_from_string(string) == result
+  defp assert_parse_multi_string(string, result, options \\ []) do
+    assert YamlElixir.read_all_from_string(string, options) == result
   end
 
-  defp assert_parse_string(string, result) do
-    assert YamlElixir.read_from_string(string) == result
+  defp assert_parse_string(string, result, options \\ []) do
+    assert YamlElixir.read_from_string(string, options) == result
   end
 end
