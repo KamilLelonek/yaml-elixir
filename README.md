@@ -105,7 +105,7 @@ atom_key: !<tag:yamerl,2012:atom> atom_value
 
 ### Elixir Sigil
 
-The `YamlElixir.Sigils` module provides the `~y` sigil that
+The `YamlElixir.Sigil` module provides the `~y` sigil that
 can be useful for example for keeping short configurations
 or other inlined yaml.
 
