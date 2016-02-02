@@ -91,6 +91,26 @@ defmodule YamlElixirTest do
     ]
   end
 
+  test "sigil should parse string document" do
+    import YamlElixir.Sigil
+    yaml = ~y"""
+    a: A
+    b: 1
+    """
+    assert %{"a" => "A", "b" => 1} == yaml
+  end
+
+  test "sigil with atom keys option" do
+    import YamlElixir.Sigil
+
+    yaml = ~y"""
+    a: :A
+    :b: 1
+    """a
+
+    assert %{"a" => :A, b: 1} == yaml
+  end
+
   defp test_data(file_name) do
     File.cwd! |> Path.join("test/fixtures/#{file_name}.yml")
   end

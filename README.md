@@ -103,6 +103,30 @@ and then using the somewhat inconvenient syntax for it:
 atom_key: !<tag:yamerl,2012:atom> atom_value
 ```
 
+### Elixir Sigils
+
+The `YamlElixir.Sigils` module provides the `~y` sigil that
+can be useful for example for keeping short configurations
+or other inlined yaml.
+
+```elixir
+import YamlElixir.Sigils
+
+@config ~y"""
+debug: false
+port:  9200
+files:
+  - some/file.csv
+  - another/file.csv
+"""
+```
+
+Use the `a` sigil modifier to turn on atom values from yaml:
+
+```
+~y":answer: yes"a
+```
+
 You can find more examples in [`test` directory](https://github.com/KamilLelonek/yaml-elixir/blob/master/test/yaml_elixir_test.exs).
 
 ## Contribution
