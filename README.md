@@ -103,14 +103,14 @@ and then using the somewhat inconvenient syntax for it:
 atom_key: !<tag:yamerl,2012:atom> atom_value
 ```
 
-### Elixir Sigils
+### Elixir Sigil
 
 The `YamlElixir.Sigils` module provides the `~y` sigil that
 can be useful for example for keeping short configurations
 or other inlined yaml.
 
 ```elixir
-import YamlElixir.Sigils
+import YamlElixir.Sigil
 
 @config ~y"""
 debug: false
