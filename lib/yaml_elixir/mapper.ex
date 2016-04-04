@@ -27,9 +27,6 @@ defmodule YamlElixir.Mapper do
   defp _to_map({ :yamerl_null, :yamerl_node_null, _tag, _loc }, _options),
   do:  nil
 
-  defp _to_map({ yamler_element, yamler_node_element, tag, loc, elem }),
-  do:  _to_map({ yamler_element, yamler_node_element, tag, loc, elem }, nil)
-
   defp _to_map({ _yamler_element, _yamler_node_element, _tag, _loc, elem }, _options),
   do:  elem
 
@@ -38,7 +35,7 @@ defmodule YamlElixir.Mapper do
 
   defp _tuples_to_map([{ key, val } | rest], map, options) do
     case key do
-      { :yamerl_str, :yamerl_node_str, _tag, _log, name } ->
+      { _yamler_element, _yamler_node_element, _tag, _log, name } ->
          _tuples_to_map(rest, Dict.put_new(map, key_for(name, options), _to_map(val, options)), options)
     end
   end
