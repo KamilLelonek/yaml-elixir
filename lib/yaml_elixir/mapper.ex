@@ -26,13 +26,14 @@ defmodule YamlElixir.Mapper do
     String.to_atom(elem)
   end
 
-  defp _to_map({ :yamerl_str, :yamerl_node_str, _tag, _loc, elem }, _options),
-  do:  elem
-
   defp _to_map({ :yamerl_null, :yamerl_node_null, _tag, _loc }, _options),
   do:  nil
 
-  defp _to_map({ _yamler_element, _yamler_node_element, _tag, _loc, elem }, _options), do: elem
+  defp _to_map({ yamler_element, yamler_node_element, tag, loc, elem }),
+  do:  _to_map({ yamler_element, yamler_node_element, tag, loc, elem }, nil)
+
+  defp _to_map({ _yamler_element, _yamler_node_element, _tag, _loc, elem }, _options),
+  do:  elem
 
   defp _tuples_to_map([], map, _options),
   do:  map

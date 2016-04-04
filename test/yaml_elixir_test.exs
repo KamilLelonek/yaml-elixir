@@ -10,11 +10,11 @@ defmodule YamlElixirTest do
   end
 
   test "should parse flat file" do
-    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], ":f" => ":atom"}
+    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], ":f" => ":atom", "g" => 88.0}
   end
 
   test "should parse flat file with atoms option" do
-    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], :f => :atom}, atoms: true
+    assert_parse_file "flat", %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], :f => :atom, "g" => 88.0}, atoms: true
   end
 
   test "should parse nested file" do
@@ -47,8 +47,9 @@ defmodule YamlElixirTest do
       c: true
       d: ~
       e: nil
+      f: 1.2
     """
-    assert_parse_string yaml, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}
+    assert_parse_string yaml, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil", "f" => 1.2}
   end
 
   test "should parse nested string" do
