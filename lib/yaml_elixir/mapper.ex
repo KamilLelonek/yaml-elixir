@@ -1,6 +1,5 @@
 defmodule YamlElixir.Mapper do
-
-  def process([], _options), do: [%{}]
+  def process([],  _options), do: [%{}]
   def process(nil, _options), do: %{}
 
   def process(yaml, options) when is_list(yaml) do
@@ -22,9 +21,8 @@ defmodule YamlElixir.Mapper do
   defp _to_map({ :yamerl_map, :yamerl_node_map, _tag, _loc, map_tuples }, options),
   do:  _tuples_to_map(map_tuples, %{}, options)
 
-  defp _to_map({ :yamerl_str, :yamerl_node_str, _tag, _loc, << ?:, elem :: binary >> }, atoms: true) do
-    String.to_atom(elem)
-  end
+  defp _to_map({ :yamerl_str, :yamerl_node_str, _tag, _loc, << ?:, elem :: binary >> }, atoms: true),
+  do:  String.to_atom(elem)
 
   defp _to_map({ :yamerl_null, :yamerl_node_null, _tag, _loc }, _options),
   do:  nil
