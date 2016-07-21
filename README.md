@@ -15,7 +15,6 @@ defp deps do
   [
      # ...
     { :yaml_elixir, "~> x.x.x" }, # where "x.x.x" equals version in mix.exs
-    { :yamerl, github: "yakaz/yamerl" }
   ]
 end
 ```
