@@ -29,7 +29,7 @@ defmodule YamlElixir.Mixfile do
 
   defp deps do
     [
-      { :yamerl, github: "yakaz/yamerl" }
+      {:yamerl, "~> 0.3.2"}
     ]
   end
 
