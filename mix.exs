@@ -6,17 +6,17 @@ defmodule YamlElixir.Mixfile do
       app:             :yaml_elixir,
       version:         "1.2.0",
       elixir:          "~> 1.3",
-      build_embedded:  Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
-      description:     description,
-      package:         package,
-      deps:            deps
+      build_embedded:  Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      description:     description(),
+      package:         package(),
+      deps:            deps(),
     ]
   end
 
   def application do
     [
-      mod:          { YamlElixir, [] },
+      mod:          {YamlElixir, []},
       applications: apps
     ]
   end
@@ -29,7 +29,7 @@ defmodule YamlElixir.Mixfile do
 
   defp deps do
     [
-      {:yamerl, "~> 0.3.2"}
+      {:yamerl, "~> 0.3.2"},
     ]
   end
 
@@ -44,7 +44,7 @@ defmodule YamlElixir.Mixfile do
       files:       ["lib", "config", "mix.exs", "README.md"],
       maintainers: ["Kamil Lelonek"],
       licenses:    ["MIT"],
-      links:       %{ "GitHub" => "https://github.com/KamilLelonek/yaml-elixir" }
+      links:       %{"GitHub" => "https://github.com/KamilLelonek/yaml-elixir"},
     ]
   end
 end
