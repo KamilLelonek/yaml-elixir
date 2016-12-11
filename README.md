@@ -128,6 +128,16 @@ Use the `a` sigil modifier to turn on atom values from yaml:
 
 You can find more examples in [`test` directory](https://github.com/KamilLelonek/yaml-elixir/blob/master/test/yaml_elixir_test.exs).
 
+## Mix tasks
+
+Sometimes, you may want to use `yaml_elixir` in your `mix` tasks. To do that, you must ensure that the application has started.
+
+    Application.ensure_all_started(:yaml_elixir)
+
+After that, you will be able to use `yaml-elixir` in your `mix` tasks.
+
+> Credits to [bobbypriambodo](https://github.com/bobbypriambodo).
+
 ## Contribution
 
 In case of any problems or suggestions do not hesitate and create a pull request.
