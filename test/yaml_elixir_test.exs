@@ -49,6 +49,7 @@ defmodule YamlElixirTest do
       e: nil
       f: 1.2
     """
+
     assert_parse_string yaml, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil", "f" => 1.2}
   end
 
@@ -61,6 +62,7 @@ defmodule YamlElixirTest do
       test:
         foo: baz
     """
+
     assert_parse_string yaml, %{
       "prod" => %{"foo" => "foo"},
       "dev"  => %{"foo" => "bar"},
@@ -86,6 +88,7 @@ defmodule YamlElixirTest do
     w: ~
     v: []
     """
+
     assert_parse_multi_string yaml,  [
       %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => []},
       %{"z" => "z", "x" => 1, "y" => true, "w" => nil, "v" => []}
@@ -94,10 +97,12 @@ defmodule YamlElixirTest do
 
   test "sigil should parse string document" do
     import YamlElixir.Sigil
+
     yaml = ~y"""
     a: A
     b: 1
     """
+
     assert %{"a" => "A", "b" => 1} == yaml
   end
 
@@ -113,16 +118,18 @@ defmodule YamlElixirTest do
   end
 
   defp test_data(file_name) do
-    File.cwd! |> Path.join("test/fixtures/#{file_name}.yml")
+    Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
   end
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do
     path = test_data(file_name)
+
     assert YamlElixir.read_all_from_file(path, options) == result
   end
 
   defp assert_parse_file(file_name, result, options \\ []) do
     path = test_data(file_name)
+
     assert YamlElixir.read_from_file(path, options) == result
   end
 

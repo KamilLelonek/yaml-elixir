@@ -14,27 +14,27 @@ defmodule YamlElixir.Mixfile do
     ]
   end
 
-  def application do
+  def application() do
     [
       mod:          {YamlElixir, []},
       applications: apps
     ]
   end
 
-  defp apps do
+  defp apps() do
     [
       :yamerl
     ]
   end
 
-  defp deps do
+  defp deps() do
     [
       {:yamerl, "~> 0.3.2"},
       {:ex_doc, ">= 0.0.0", only: :dev},
     ]
   end
 
-  defp description do
+  defp description() do
     """
     Yaml parser for Elixir based on native Erlang implementation.
     """
