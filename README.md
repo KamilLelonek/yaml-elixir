@@ -14,10 +14,12 @@ Add `Yaml Elixir` as a dependency in your `mix.exs` file.
 defp deps do
   [
      # ...
-    { :yaml_elixir, "~> x.x.x" }, # where "x.x.x" equals version in mix.exs
+    {:yaml_elixir, "~> x.x.x"}, # where "x.x.x" equals version in mix.exs
   ]
 end
 ```
+
+**ALWAYS MAKE SURE YOU USE THE LATEST VERSION FROM [`mix.ex`](https://github.com/KamilLelonek/yaml-elixir/blob/master/mix.exs#L7)**
 
 You should also update your applications list to include `Yaml Elixir`:
 
@@ -26,7 +28,7 @@ def application do
   [
      applications: [
        # ...
-       :yaml_elixir
+       :yaml_elixir,
      ]
   ]
 end
