@@ -95,6 +95,23 @@ defmodule YamlElixirTest do
     ]
   end
 
+  test "should parse string with mapping between sequences" do
+    yaml = """
+    ---
+    ?
+      - a
+      - b
+    :
+      - 1
+      - 2
+    ? [c, d]
+    : [3, 4]
+    ? [e]
+    : 5
+    """
+    assert_parse_string yaml, %{["a", "b"] => [1, 2], ["c", "d"] => [3, 4], ["e"] => 5}
+  end
+
   test "sigil should parse string document" do
     import YamlElixir.Sigil
 

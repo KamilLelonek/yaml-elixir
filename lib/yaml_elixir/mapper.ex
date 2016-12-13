@@ -35,6 +35,8 @@ defmodule YamlElixir.Mapper do
 
   defp _tuples_to_map([{ key, val } | rest], map, options) do
     case key do
+      { :yamerl_seq, :yamerl_node_seq, _tag, _log, _seq, _n } ->
+         _tuples_to_map(rest, Dict.put_new(map, _to_map(key, options), _to_map(val, options)), options)
       { _yamler_element, _yamler_node_element, _tag, _log, name } ->
          _tuples_to_map(rest, Dict.put_new(map, key_for(name, options), _to_map(val, options)), options)
     end
