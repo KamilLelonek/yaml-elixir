@@ -1,6 +1,6 @@
 defmodule YamlElixir do
   def start(_type, _args),
-    do: Supervisor.start_link(children, options)
+    do: Supervisor.start_link(children(), options())
 
   @yamerl_options [
     detailed_constr:    true,

@@ -17,7 +17,7 @@ defmodule YamlElixir.Mixfile do
   def application() do
     [
       mod:          {YamlElixir, []},
-      applications: apps
+      applications: apps()
     ]
   end
 
