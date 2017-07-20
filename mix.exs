@@ -4,8 +4,8 @@ defmodule YamlElixir.Mixfile do
   def project do
     [
       app:             :yaml_elixir,
-      version:         "1.3.0",
-      elixir:          "~> 1.3",
+      version:         "1.3.1",
+      elixir:          "~> 1.4",
       build_embedded:  Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description:     description(),
@@ -29,7 +29,7 @@ defmodule YamlElixir.Mixfile do
 
   defp deps() do
     [
-      {:yamerl, "~> 0.5.0"},
+      {:yamerl, "~> 0.5"},
       {:ex_doc, ">= 0.0.0", only: :dev},
     ]
   end
