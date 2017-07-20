@@ -29,7 +29,7 @@ defmodule YamlElixir.Mixfile do
 
   defp deps() do
     [
-      {:yamerl, "~> 0.3.2"},
+      {:yamerl, "~> 0.5.0"},
       {:ex_doc, ">= 0.0.0", only: :dev},
     ]
   end
