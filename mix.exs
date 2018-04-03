@@ -14,12 +14,6 @@ defmodule YamlElixir.Mixfile do
     ]
   end
 
-  def application() do
-    [
-      mod: {YamlElixir, []}
-    ]
-  end
-
   defp deps() do
     [
       {:yamerl, "~> 0.5"},
