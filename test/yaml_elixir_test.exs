@@ -163,13 +163,12 @@ defmodule YamlElixirTest do
 
   test "should get error tuple for invalid file" do
     path = test_data("invalid")
+
     assert {:error, "malformed yaml"} = YamlElixir.read_all_from_file(path)
     assert {:error, "malformed yaml"} = YamlElixir.read_from_file(path)
   end
 
-  defp test_data(file_name) do
-    Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
-  end
+  defp test_data(file_name), do: Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do
     path = test_data(file_name)
