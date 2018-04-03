@@ -1,5 +1,4 @@
 defmodule YamlElixir.Mapper do
-  def process([], _options), do: [%{}]
   def process(nil, _options), do: %{}
 
   def process(yaml, options) when is_list(yaml), do: Enum.map(yaml, &process(&1, options))
