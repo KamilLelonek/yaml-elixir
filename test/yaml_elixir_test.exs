@@ -154,6 +154,19 @@ defmodule YamlElixirTest do
     assert %{"a" => :A, b: 1} == yaml
   end
 
+  test "should get error tuple for invalid literal" do
+    yaml = ":"
+
+    assert {:error, "malformed yaml"} = YamlElixir.read_all_from_string(yaml)
+    assert {:error, "malformed yaml"} = YamlElixir.read_from_string(yaml)
+  end
+
+  test "should get error tuple for invalid file" do
+    path = test_data("invalid")
+    assert {:error, "malformed yaml"} = YamlElixir.read_all_from_file(path)
+    assert {:error, "malformed yaml"} = YamlElixir.read_from_file(path)
+  end
+
   defp test_data(file_name) do
     Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
   end
@@ -161,20 +174,20 @@ defmodule YamlElixirTest do
   defp assert_parse_multi_file(file_name, result, options \\ []) do
     path = test_data(file_name)
 
-    assert YamlElixir.read_all_from_file(path, options) == result
+    assert YamlElixir.read_all_from_file!(path, options) == result
   end
 
   defp assert_parse_file(file_name, result, options \\ []) do
     path = test_data(file_name)
 
-    assert YamlElixir.read_from_file(path, options) == result
+    assert YamlElixir.read_from_file!(path, options) == result
   end
 
   defp assert_parse_multi_string(string, result, options \\ []) do
-    assert YamlElixir.read_all_from_string(string, options) == result
+    assert YamlElixir.read_all_from_string!(string, options) == result
   end
 
   defp assert_parse_string(string, result, options \\ []) do
-    assert YamlElixir.read_from_string(string, options) == result
+    assert YamlElixir.read_from_string!(string, options) == result
   end
 end
