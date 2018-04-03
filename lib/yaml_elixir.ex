@@ -12,11 +12,25 @@ defmodule YamlElixir do
     |> Mapper.process(options)
   end
 
+  def read_all_from_file(path, options \\ []) do
+    result = read_all_from_file!(path, options)
+    {:ok, result}
+  rescue
+    _ -> {:error, "malformed yaml"}
+  end
+
   def read_from_file!(path, options \\ []) do
     path
     |> :yamerl_constr.file(@yamerl_options)
     |> List.last()
     |> Mapper.process(options)
+  end
+
+  def read_from_file(path, options \\ []) do
+    result = read_from_file!(path, options)
+    {:ok, result}
+  rescue
+    _ -> {:error, "malformed yaml"}
   end
 
   def read_all_from_string!(string, options \\ []) do
@@ -25,10 +39,24 @@ defmodule YamlElixir do
     |> Mapper.process(options)
   end
 
+  def read_all_from_string(string, options \\ []) do
+    result = read_all_from_string!(string, options)
+    {:ok, result}
+  rescue
+    _ -> {:error, "malformed yaml"}
+  end
+
   def read_from_string!(string, options \\ []) do
     string
     |> :yamerl_constr.string(@yamerl_options)
     |> List.last()
     |> Mapper.process(options)
+  end
+
+  def read_from_string(string, options \\ []) do
+    result = read_from_string!(string, options)
+    {:ok, result}
+  rescue
+    _ -> {:error, "malformed yaml"}
   end
 end
