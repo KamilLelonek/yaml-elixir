@@ -4,8 +4,8 @@ defmodule YamlElixir.Mixfile do
   def project do
     [
       app: :yaml_elixir,
-      version: "1.3.1",
-      elixir: "~> 1.4",
+      version: "1.3.2",
+      elixir: "~> 1.6",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),
