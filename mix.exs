@@ -16,14 +16,7 @@ defmodule YamlElixir.Mixfile do
 
   def application() do
     [
-      mod: {YamlElixir, []},
-      applications: apps()
-    ]
-  end
-
-  defp apps() do
-    [
-      :yamerl
+      mod: {YamlElixir, []}
     ]
   end
 
