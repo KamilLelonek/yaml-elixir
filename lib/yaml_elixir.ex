@@ -16,7 +16,7 @@ defmodule YamlElixir do
     result = read_all_from_file!(path, options)
     {:ok, result}
   rescue
-    _ -> {:error, "malformed yaml"}
+    _ -> error("malformed yaml")
   end
 
   def read_from_file!(path, options \\ []) do
@@ -30,7 +30,7 @@ defmodule YamlElixir do
     result = read_from_file!(path, options)
     {:ok, result}
   rescue
-    _ -> {:error, "malformed yaml"}
+    _ -> error("malformed yaml")
   end
 
   def read_all_from_string!(string, options \\ []) do
@@ -43,7 +43,7 @@ defmodule YamlElixir do
     result = read_all_from_string!(string, options)
     {:ok, result}
   rescue
-    _ -> {:error, "malformed yaml"}
+    _ -> error("malformed yaml")
   end
 
   def read_from_string!(string, options \\ []) do
@@ -57,6 +57,20 @@ defmodule YamlElixir do
     result = read_from_string!(string, options)
     {:ok, result}
   rescue
-    _ -> {:error, "malformed yaml"}
+    _ -> error("malformed yaml")
+  end
+
+  defp error(message) do
+    yamerl_started =
+      Application.started_applications()
+      |> Enum.any?(fn {app, _, _} ->
+        app == :yamerl
+      end)
+
+    if yamerl_started do
+      {:error, message}
+    else
+      {:error, "yamerl is not running; start it with Application.ensure_started(:yamerl)"}
+    end
   end
 end
