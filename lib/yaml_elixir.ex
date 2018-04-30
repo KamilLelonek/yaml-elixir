@@ -13,10 +13,9 @@ defmodule YamlElixir do
   end
 
   def read_all_from_file(path, options \\ []) do
-    result = read_all_from_file!(path, options)
-    {:ok, result}
-  rescue
-    _ -> {:error, "malformed yaml"}
+    {:ok, read_all_from_file!(path, options)}
+  catch
+    _, _ -> {:error, "malformed yaml"}
   end
 
   def read_from_file!(path, options \\ []) do
@@ -27,10 +26,9 @@ defmodule YamlElixir do
   end
 
   def read_from_file(path, options \\ []) do
-    result = read_from_file!(path, options)
-    {:ok, result}
-  rescue
-    _ -> {:error, "malformed yaml"}
+    {:ok, read_from_file!(path, options)}
+  catch
+    _, _ -> {:error, "malformed yaml"}
   end
 
   def read_all_from_string!(string, options \\ []) do
@@ -40,10 +38,9 @@ defmodule YamlElixir do
   end
 
   def read_all_from_string(string, options \\ []) do
-    result = read_all_from_string!(string, options)
-    {:ok, result}
-  rescue
-    _ -> {:error, "malformed yaml"}
+    {:ok, read_all_from_string!(string, options)}
+  catch
+    _, _ -> {:error, "malformed yaml"}
   end
 
   def read_from_string!(string, options \\ []) do
@@ -54,9 +51,8 @@ defmodule YamlElixir do
   end
 
   def read_from_string(string, options \\ []) do
-    result = read_from_string!(string, options)
-    {:ok, result}
-  rescue
-    _ -> {:error, "malformed yaml"}
+    {:ok, read_from_string!(string, options)}
+  catch
+    _, _ -> {:error, "malformed yaml"}
   end
 end

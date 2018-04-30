@@ -155,7 +155,7 @@ defmodule YamlElixirTest do
   end
 
   test "should get error tuple for invalid literal" do
-    yaml = ":"
+    yaml = "*invalid"
 
     assert {:error, "malformed yaml"} = YamlElixir.read_all_from_string(yaml)
     assert {:error, "malformed yaml"} = YamlElixir.read_from_string(yaml)
