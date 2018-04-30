@@ -14,14 +14,14 @@ defmodule YamlElixir.Mixfile do
     ]
   end
 
-  defp deps() do
+  defp deps do
     [
-      {:yamerl, "~> 0.5"},
+      {:yamerl, "~> 0.7"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
-  defp description() do
+  defp description do
     """
     Yaml parser for Elixir based on native Erlang implementation.
     """
