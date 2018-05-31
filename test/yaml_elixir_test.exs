@@ -171,7 +171,7 @@ defmodule YamlElixirTest do
   test "should receive keyword list when used `maps_as_keywords` option" do
     assert_parse_file(
       "nested",
-      [[[{"prod", [{"foo", "foo"}]}, {"dev", [{"foo", "bar"}]}, {"test", [{"foo", "baz"}]}]]],
+      [{"test", [{"foo", "baz"}]}, {"dev", [{"foo", "bar"}]}, {"prod", [{"foo", "foo"}]}],
       maps_as_keywords: true
     )
   end

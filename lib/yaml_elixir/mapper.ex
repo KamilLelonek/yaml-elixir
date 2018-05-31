@@ -36,11 +36,7 @@ defmodule YamlElixir.Mapper do
   defp _tuples_to_map([], map, _options), do: map
 
   defp _tuples_to_map([{key, val} | rest], map, options) do
-    agregator_module =
-      case Keyword.get(options, :maps_as_keywords) do
-        true -> &append_kv/3
-        _ -> &Map.put_new/3
-      end
+    agregator_module = agregator_for_maps(options)
 
     case key do
       {:yamerl_seq, :yamerl_node_seq, _tag, _log, _seq, _n} ->
@@ -78,5 +74,12 @@ defmodule YamlElixir.Mapper do
 
   defp append_kv(list, key, value) do
     [{key, value} | list]
+  end
+
+  defp agregator_for_maps(options) do
+    case Keyword.get(options, :maps_as_keywords) do
+      true -> &append_kv/3
+      _ -> &Map.put_new/3
+    end
   end
 end
