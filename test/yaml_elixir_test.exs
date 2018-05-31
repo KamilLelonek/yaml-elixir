@@ -168,6 +168,20 @@ defmodule YamlElixirTest do
     assert {:error, "malformed yaml"} = YamlElixir.read_from_file(path)
   end
 
+  # test "should receive keyword list when used `maps_as_keywords` option" do
+  #   assert_parse_file(
+  #     "nested",
+  #     [
+  #       [
+  #         {"prod", [{"foo", "foo"}]},
+  #         {"dev", [{"foo", "bar"}]},
+  #         {"test", [{"foo", "baz"}]}
+  #       ]
+  #     ],
+  #     maps_as_keywords: true
+  #   )
+  # end
+
   defp test_data(file_name), do: Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do

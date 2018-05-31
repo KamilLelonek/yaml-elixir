@@ -6,12 +6,32 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
-  def read_all_from_file!(path, options \\ []) do
+  defp start_processing(method, source, options) do
     ensure_yamerl_started()
+    processed_options = process_options(options)
 
-    path
-    |> :yamerl_constr.file(@yamerl_options)
+    do_processing(method, source, processed_options)
+    |> maybe_pick(processed_options)
     |> Mapper.process(options)
+  end
+
+  defp process_options(options) do
+    Keyword.merge(options, @yamerl_options)
+  end
+
+  defp do_processing(:file, path, options), do: :yamerl_constr.file(path, options)
+  defp do_processing(:string, data, options), do: :yamerl_constr.string(data, options)
+
+  defp maybe_pick(data, options) do
+    if Keyword.get(options, :one_result) do
+      List.last(data)
+    else
+      data
+    end
+  end
+
+  def read_all_from_file!(path, options \\ []) do
+    start_processing(:file, path, options)
   end
 
   def read_all_from_file(path, options \\ []) do
@@ -21,12 +41,7 @@ defmodule YamlElixir do
   end
 
   def read_from_file!(path, options \\ []) do
-    ensure_yamerl_started()
-
-    path
-    |> :yamerl_constr.file(@yamerl_options)
-    |> List.last()
-    |> Mapper.process(options)
+    start_processing(:file, path, Keyword.put(options, :one_result, true))
   end
 
   def read_from_file(path, options \\ []) do
@@ -36,11 +51,7 @@ defmodule YamlElixir do
   end
 
   def read_all_from_string!(string, options \\ []) do
-    ensure_yamerl_started()
-
-    string
-    |> :yamerl_constr.string(@yamerl_options)
-    |> Mapper.process(options)
+    start_processing(:string, string, options)
   end
 
   def read_all_from_string(string, options \\ []) do
@@ -50,12 +61,7 @@ defmodule YamlElixir do
   end
 
   def read_from_string!(string, options \\ []) do
-    ensure_yamerl_started()
-
-    string
-    |> :yamerl_constr.string(@yamerl_options)
-    |> List.last()
-    |> Mapper.process(options)
+    start_processing(:string, string, Keyword.put(options, :one_result, true))
   end
 
   def read_from_string(string, options \\ []) do

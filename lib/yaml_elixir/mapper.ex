@@ -1,7 +1,12 @@
 defmodule YamlElixir.Mapper do
   def process(nil, _options), do: %{}
   def process(yaml, options) when is_list(yaml), do: Enum.map(yaml, &process(&1, options))
-  def process(yaml, options), do: yaml |> _to_map(options) |> extract_map()
+
+  def process(yaml, options),
+    do:
+      yaml
+      |> _to_map(options)
+      |> extract_map()
 
   defp extract_map(nil), do: %{}
   defp extract_map(map), do: map
@@ -14,8 +19,16 @@ defmodule YamlElixir.Mapper do
   defp _to_map({:yamerl_map, :yamerl_node_map, _tag, _loc, map_tuples}, options),
     do: _tuples_to_map(map_tuples, %{}, options)
 
-  defp _to_map({:yamerl_str, :yamerl_node_str, _tag, _loc, <<?:, elem::binary>>}, atoms: true),
-    do: String.to_atom(elem)
+  defp _to_map(
+         {:yamerl_str, :yamerl_node_str, _tag, _loc, <<?:, elem::binary>> = original_elem},
+         options
+       ) do
+    if Keyword.get(options, :atoms) do
+      String.to_atom(elem)
+    else
+      original_elem
+    end
+  end
 
   defp _to_map({:yamerl_null, :yamerl_node_null, _tag, _loc}, _options), do: nil
   defp _to_map({_yamler_element, _yamler_node_element, _tag, _loc, elem}, _options), do: elem
@@ -40,6 +53,13 @@ defmodule YamlElixir.Mapper do
     end
   end
 
-  defp key_for(<<?:, name::binary>>, atoms: true), do: String.to_atom(name)
+  defp key_for(<<?:, name::binary>> = original_name, options) do
+    if Keyword.get(options, :atoms) do
+      String.to_atom(name)
+    else
+      original_name
+    end
+  end
+
   defp key_for(name, _options), do: name
 end
