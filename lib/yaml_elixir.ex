@@ -10,7 +10,8 @@ defmodule YamlElixir do
     ensure_yamerl_started()
     processed_options = merge_options(options)
 
-    yamerl_constr(method, source, processed_options)
+    method
+    |> yamerl_constr(source, processed_options)
     |> extract_data(processed_options)
     |> Mapper.process(options)
   end
