@@ -15,9 +15,8 @@ defmodule YamlElixir do
     |> Mapper.process(options)
   end
 
-  defp process_options(options) do
-    Keyword.merge(options, @yamerl_options)
-  end
+  defp process_options(options),
+    do: Keyword.merge(options, @yamerl_options)
 
   defp do_processing(:file, path, options), do: :yamerl_constr.file(path, options)
   defp do_processing(:string, data, options), do: :yamerl_constr.string(data, options)
@@ -30,9 +29,8 @@ defmodule YamlElixir do
     end
   end
 
-  def read_all_from_file!(path, options \\ []) do
-    start_processing(:file, path, options)
-  end
+  def read_all_from_file!(path, options \\ []),
+    do: start_processing(:file, path, options)
 
   def read_all_from_file(path, options \\ []) do
     {:ok, read_all_from_file!(path, options)}
@@ -40,9 +38,8 @@ defmodule YamlElixir do
     _, _ -> {:error, "malformed yaml"}
   end
 
-  def read_from_file!(path, options \\ []) do
-    start_processing(:file, path, Keyword.put(options, :one_result, true))
-  end
+  def read_from_file!(path, options \\ []),
+    do: start_processing(:file, path, Keyword.put(options, :one_result, true))
 
   def read_from_file(path, options \\ []) do
     {:ok, read_from_file!(path, options)}
@@ -50,9 +47,8 @@ defmodule YamlElixir do
     _, _ -> {:error, "malformed yaml"}
   end
 
-  def read_all_from_string!(string, options \\ []) do
-    start_processing(:string, string, options)
-  end
+  def read_all_from_string!(string, options \\ []),
+    do: start_processing(:string, string, options)
 
   def read_all_from_string(string, options \\ []) do
     {:ok, read_all_from_string!(string, options)}
@@ -60,9 +56,8 @@ defmodule YamlElixir do
     _, _ -> {:error, "malformed yaml"}
   end
 
-  def read_from_string!(string, options \\ []) do
-    start_processing(:string, string, Keyword.put(options, :one_result, true))
-  end
+  def read_from_string!(string, options \\ []),
+    do: start_processing(:string, string, Keyword.put(options, :one_result, true))
 
   def read_from_string(string, options \\ []) do
     {:ok, read_from_string!(string, options)}
