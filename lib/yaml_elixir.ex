@@ -6,22 +6,22 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
-  defp start_processing(method, source, options) do
+  defp read(method, source, options) do
     ensure_yamerl_started()
-    processed_options = process_options(options)
+    processed_options = merge_options(options)
 
-    do_processing(method, source, processed_options)
-    |> maybe_pick(processed_options)
+    yamerl_constr(method, source, processed_options)
+    |> extract_data(processed_options)
     |> Mapper.process(options)
   end
 
-  defp process_options(options),
+  defp merge_options(options),
     do: Keyword.merge(options, @yamerl_options)
 
-  defp do_processing(:file, path, options), do: :yamerl_constr.file(path, options)
-  defp do_processing(:string, data, options), do: :yamerl_constr.string(data, options)
+  defp yamerl_constr(:file, path, options), do: :yamerl_constr.file(path, options)
+  defp yamerl_constr(:string, data, options), do: :yamerl_constr.string(data, options)
 
-  defp maybe_pick(data, options) do
+  defp extract_data(data, options) do
     if Keyword.get(options, :one_result) do
       List.last(data)
     else
@@ -30,7 +30,7 @@ defmodule YamlElixir do
   end
 
   def read_all_from_file!(path, options \\ []),
-    do: start_processing(:file, path, options)
+    do: read(:file, path, options)
 
   def read_all_from_file(path, options \\ []) do
     {:ok, read_all_from_file!(path, options)}
@@ -39,7 +39,7 @@ defmodule YamlElixir do
   end
 
   def read_from_file!(path, options \\ []),
-    do: start_processing(:file, path, Keyword.put(options, :one_result, true))
+    do: read(:file, path, Keyword.put(options, :one_result, true))
 
   def read_from_file(path, options \\ []) do
     {:ok, read_from_file!(path, options)}
@@ -48,7 +48,7 @@ defmodule YamlElixir do
   end
 
   def read_all_from_string!(string, options \\ []),
-    do: start_processing(:string, string, options)
+    do: read(:string, string, options)
 
   def read_all_from_string(string, options \\ []) do
     {:ok, read_all_from_string!(string, options)}
@@ -57,7 +57,7 @@ defmodule YamlElixir do
   end
 
   def read_from_string!(string, options \\ []),
-    do: start_processing(:string, string, Keyword.put(options, :one_result, true))
+    do: read(:string, string, Keyword.put(options, :one_result, true))
 
   def read_from_string(string, options \\ []) do
     {:ok, read_from_string!(string, options)}
