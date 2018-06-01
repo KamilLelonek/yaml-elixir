@@ -6,13 +6,13 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
-  defp read(method, source, options) do
+  defp read(type, source, options) do
     ensure_yamerl_started()
-    processed_options = merge_options(options)
+    options = merge_options(options)
 
-    method
-    |> yamerl_constr(source, processed_options)
-    |> extract_data(processed_options)
+    type
+    |> yamerl_constr(source, options)
+    |> extract_data(options)
     |> Mapper.process(options)
   end
 
