@@ -131,5 +131,10 @@ In case of any problems or suggestions do not hesitate and create a pull request
 
 ### Credits
 
-- Credits to [bobbypriambodo](https://github.com/bobbypriambodo).
-- Credits to [Hajto](https://github.com/Hajto).
+- [bobbypriambodo](https://github.com/bobbypriambodo)
+- [Hajto](https://github.com/Hajto)
+- [sambooo](https://github.com/sambooo)
+- [ernie](https://github.com/ernie)
+- [sibsibsib](https://github.com/sibsibsib)
+- [vic](https://github.com/vic)
+- [rothsberg](https://github.com/rothsberg)
