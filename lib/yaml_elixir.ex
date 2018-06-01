@@ -6,36 +6,6 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
-  defp read(type, source, options) do
-    ensure_yamerl_started()
-
-    options
-    |> merge_options()
-    |> process(type, source)
-  end
-
-  defp process(options, type, source) do
-    type
-    |> yamerl_constr(source, options)
-    |> extract_data(options)
-    |> Mapper.process(options)
-  end
-
-  defp merge_options(options),
-    do: Keyword.merge(options, @yamerl_options)
-
-  defp yamerl_constr(:file, path, options), do: :yamerl_constr.file(path, options)
-  defp yamerl_constr(:string, data, options), do: :yamerl_constr.string(data, options)
-
-  defp extract_data(data, options) do
-    options
-    |> Keyword.get(:one_result)
-    |> maybe_take_last(data)
-  end
-
-  def maybe_take_last(true, data), do: List.last(data)
-  def maybe_take_last(_, data), do: data
-
   def read_all_from_file!(path, options \\ []),
     do: read(:file, path, options)
 
@@ -71,6 +41,36 @@ defmodule YamlElixir do
   catch
     _, _ -> {:error, "malformed yaml"}
   end
+
+  defp read(type, source, options) do
+    ensure_yamerl_started()
+
+    options
+    |> merge_options()
+    |> process(type, source)
+  end
+
+  defp process(options, type, source) do
+    type
+    |> yamerl_constr(source, options)
+    |> extract_data(options)
+    |> Mapper.process(options)
+  end
+
+  defp merge_options(options),
+    do: Keyword.merge(options, @yamerl_options)
+
+  defp yamerl_constr(:file, path, options), do: :yamerl_constr.file(path, options)
+  defp yamerl_constr(:string, data, options), do: :yamerl_constr.string(data, options)
+
+  defp extract_data(data, options) do
+    options
+    |> Keyword.get(:one_result)
+    |> maybe_take_last(data)
+  end
+
+  defp maybe_take_last(true, data), do: List.last(data)
+  defp maybe_take_last(_, data), do: data
 
   defp ensure_yamerl_started, do: Application.start(:yamerl)
 end
