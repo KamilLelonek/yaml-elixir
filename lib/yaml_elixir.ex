@@ -8,8 +8,13 @@ defmodule YamlElixir do
 
   defp read(type, source, options) do
     ensure_yamerl_started()
-    options = merge_options(options)
 
+    options
+    |> merge_options()
+    |> process(type, source)
+  end
+
+  defp process(options, type, source) do
     type
     |> yamerl_constr(source, options)
     |> extract_data(options)
