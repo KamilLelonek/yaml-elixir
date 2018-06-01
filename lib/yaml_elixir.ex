@@ -7,7 +7,7 @@ defmodule YamlElixir do
   ]
 
   def read_all_from_file!(path, options \\ []),
-    do: read(:file, path, options)
+    do: prepare_and_read(:file, path, options)
 
   def read_all_from_file(path, options \\ []) do
     {:ok, read_all_from_file!(path, options)}
@@ -16,7 +16,7 @@ defmodule YamlElixir do
   end
 
   def read_from_file!(path, options \\ []),
-    do: read(:file, path, Keyword.put(options, :one_result, true))
+    do: prepare_and_read(:file, path, Keyword.put(options, :one_result, true))
 
   def read_from_file(path, options \\ []) do
     {:ok, read_from_file!(path, options)}
@@ -25,7 +25,7 @@ defmodule YamlElixir do
   end
 
   def read_all_from_string!(string, options \\ []),
-    do: read(:string, string, options)
+    do: prepare_and_read(:string, string, options)
 
   def read_all_from_string(string, options \\ []) do
     {:ok, read_all_from_string!(string, options)}
@@ -34,7 +34,7 @@ defmodule YamlElixir do
   end
 
   def read_from_string!(string, options \\ []),
-    do: read(:string, string, Keyword.put(options, :one_result, true))
+    do: prepare_and_read(:string, string, Keyword.put(options, :one_result, true))
 
   def read_from_string(string, options \\ []) do
     {:ok, read_from_string!(string, options)}
@@ -42,15 +42,15 @@ defmodule YamlElixir do
     _, _ -> {:error, "malformed yaml"}
   end
 
-  defp read(type, source, options) do
+  defp prepare_and_read(type, source, options) do
     ensure_yamerl_started()
 
     options
     |> merge_options()
-    |> process(type, source)
+    |> read(type, source)
   end
 
-  defp process(options, type, source) do
+  defp read(options, type, source) do
     type
     |> yamerl_constr(source, options)
     |> extract_data(options)
