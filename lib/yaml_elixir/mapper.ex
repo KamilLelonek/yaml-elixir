@@ -2,11 +2,11 @@ defmodule YamlElixir.Mapper do
   def process(nil, options), do: empty_container(options)
   def process(yaml, options) when is_list(yaml), do: Enum.map(yaml, &process(&1, options))
 
-  def process(yaml, options),
-    do:
-      yaml
-      |> _to_map(options)
-      |> extract_map(options)
+  def process(yaml, options) do
+    yaml
+    |> _to_map(options)
+    |> extract_map(options)
+  end
 
   defp extract_map(nil, options), do: empty_container(options)
   defp extract_map(map, _), do: map
@@ -72,9 +72,8 @@ defmodule YamlElixir.Mapper do
     end
   end
 
-  defp append_kv(list, key, value) do
-    [{key, value} | list]
-  end
+  defp append_kv(list, key, value),
+    do: [{key, value} | list]
 
   defp agregator_for_maps(options) do
     case Keyword.get(options, :maps_as_keywords) do
