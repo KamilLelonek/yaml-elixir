@@ -23,12 +23,13 @@ defmodule YamlElixir do
   defp yamerl_constr(:string, data, options), do: :yamerl_constr.string(data, options)
 
   defp extract_data(data, options) do
-    if Keyword.get(options, :one_result) do
-      List.last(data)
-    else
-      data
-    end
+    options
+    |> Keyword.get(:one_result)
+    |> maybe_take_last(data)
   end
+
+  def maybe_take_last(true, data), do: List.last(data)
+  def maybe_take_last(_, data), do: data
 
   def read_all_from_file!(path, options \\ []),
     do: read(:file, path, options)
