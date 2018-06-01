@@ -20,15 +20,10 @@ defmodule YamlElixir.Mapper do
     do: _tuples_to_map(map_tuples, empty_container(options), options)
 
   defp _to_map(
-         {:yamerl_str, :yamerl_node_str, _tag, _loc, <<?:, elem::binary>> = original_elem},
+         {:yamerl_str, :yamerl_node_str, _tag, _loc, <<?:, _::binary>> = element},
          options
-       ) do
-    if Keyword.get(options, :atoms) do
-      String.to_atom(elem)
-    else
-      original_elem
-    end
-  end
+       ),
+       do: key_for(element, options)
 
   defp _to_map({:yamerl_null, :yamerl_node_null, _tag, _loc}, _options), do: nil
   defp _to_map({_yamler_element, _yamler_node_element, _tag, _loc, elem}, _options), do: elem
@@ -56,18 +51,20 @@ defmodule YamlElixir.Mapper do
   end
 
   defp key_for(<<?:, name::binary>> = original_name, options) do
-    if Keyword.get(options, :atoms) do
-      String.to_atom(name)
-    else
-      original_name
-    end
+    options
+    |> Keyword.get(:atoms)
+    |> maybe_atom(name, original_name)
   end
 
   defp key_for(name, _options), do: name
 
+  defp maybe_atom(true, name, _original_name), do: String.to_atom(name)
+  defp maybe_atom(_, _name, original_name), do: original_name
+
   defp empty_container(options) do
-    case Keyword.get(options, :maps_as_keywords) do
-      true -> []
+    with true <- Keyword.get(options, :maps_as_keywords) do
+      []
+    else
       _ -> %{}
     end
   end
@@ -76,8 +73,9 @@ defmodule YamlElixir.Mapper do
     do: [{key, value} | list]
 
   defp maps_aggregator(options) do
-    case Keyword.get(options, :maps_as_keywords) do
-      true -> &append_kv/3
+    with true <- Keyword.get(options, :maps_as_keywords) do
+      &append_kv/3
+    else
       _ -> &Map.put_new/3
     end
   end
