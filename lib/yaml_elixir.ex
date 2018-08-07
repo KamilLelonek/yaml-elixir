@@ -12,7 +12,8 @@ defmodule YamlElixir do
   def read_all_from_file(path, options \\ []) do
     {:ok, read_all_from_file!(path, options)}
   catch
-    _, _ -> {:error, "malformed yaml"}
+    :throw, {:yamerl_exception, list} ->
+      {:error, format_error(list)}
   end
 
   def read_from_file!(path, options \\ []),
@@ -21,7 +22,8 @@ defmodule YamlElixir do
   def read_from_file(path, options \\ []) do
     {:ok, read_from_file!(path, options)}
   catch
-    _, _ -> {:error, "malformed yaml"}
+    :throw, {:yamerl_exception, list} ->
+      {:error, format_error(list)}
   end
 
   def read_all_from_string!(string, options \\ []),
@@ -30,7 +32,8 @@ defmodule YamlElixir do
   def read_all_from_string(string, options \\ []) do
     {:ok, read_all_from_string!(string, options)}
   catch
-    _, _ -> {:error, "malformed yaml"}
+    :throw, {:yamerl_exception, list} ->
+      {:error, format_error(list)}
   end
 
   def read_from_string!(string, options \\ []),
@@ -39,7 +42,8 @@ defmodule YamlElixir do
   def read_from_string(string, options \\ []) do
     {:ok, read_from_string!(string, options)}
   catch
-    _, _ -> {:error, "malformed yaml"}
+    :throw, {:yamerl_exception, list} ->
+      {:error, format_error(list)}
   end
 
   defp prepare_and_read(type, source, options) do
@@ -73,4 +77,11 @@ defmodule YamlElixir do
   defp maybe_take_last(_, data), do: data
 
   defp ensure_yamerl_started, do: Application.start(:yamerl)
+
+  defp format_error(list, result \\ "")
+  defp format_error([], result), do: result
+  defp format_error([{_, _, message, line, col, _, _, _} = error|t], result) do
+    error |> IO.inspect
+    format_error(t, result <> "line: #{line} column: #{col}\r\n#{message}\r\n")
+  end
 end
