@@ -45,7 +45,7 @@ iex(1)> yaml = """
 ...(1)> """
 "  a: a\n  b: 1\n  c: true\n  d: ~\n  e: nil\n"
 iex(2)> YamlElixir.read_from_string yaml
-%{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}
+{:ok, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}}
 ```
 
 ### Parsing a file
@@ -54,7 +54,7 @@ iex(2)> YamlElixir.read_from_string yaml
 iex(1)> path = File.cwd! |> Path.join("test/fixtures/flat.yml")
 "/Users/squixy/Desktop/yaml-elixir/test/fixtures/flat.yml"
 iex(2)> YamlElixir.read_from_file path
-%{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => []}
+{:ok, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => []}}
 ```
 
 ### Support for atoms
@@ -75,7 +75,7 @@ iex(1)> yaml = """
 ...(1)> """
 "  a: a\n  b: 1\n  c: true\n  d: ~\n  e: nil\n"
 iex(2)> YamlElixir.read_from_string yaml, atoms: true
-%{:f => :atom, "a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}
+{:ok, %{:f => :atom, "a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}}
 ```
 
 Atoms are not garbage collected by `BEAM`, so be careful with this option, and
