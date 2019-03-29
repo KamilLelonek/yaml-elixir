@@ -6,7 +6,6 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
-  @spec read_all_from_file!(any(), any()) :: any()
   def read_all_from_file!(path, options \\ []) do
     case read_all_from_file(path, options) do
       {:ok, result} -> result
