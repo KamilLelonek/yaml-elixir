@@ -134,6 +134,7 @@ defmodule YamlElixirTest do
 
   test "map list without atom" do
     import YamlElixir.Sigil
+
     yaml = """
     ---
     list:
@@ -148,6 +149,7 @@ defmodule YamlElixirTest do
 
   test "sigil list atom" do
     import YamlElixir.Sigil
+
     yaml = ~y"""
     ---
     list:
@@ -185,15 +187,45 @@ defmodule YamlElixirTest do
   test "should get error tuple for invalid literal" do
     yaml = "*invalid"
 
-    assert {:error, "malformed yaml"} = YamlElixir.read_all_from_string(yaml)
-    assert {:error, "malformed yaml"} = YamlElixir.read_from_string(yaml)
+    assert {:error, %YamlElixir.ParsingError{}} = YamlElixir.read_all_from_string(yaml)
+    assert {:error, %YamlElixir.ParsingError{}} = YamlElixir.read_from_string(yaml)
+  end
+
+  test "bang function should raise exception for invalid literal" do
+    yaml = "*invalid"
+
+    assert_raise YamlElixir.ParsingError, ~s(No anchor corresponds to alias "invalid"), fn ->
+      YamlElixir.read_all_from_string!(yaml)
+    end
   end
 
   test "should get error tuple for invalid file" do
     path = test_data("invalid")
 
-    assert {:error, "malformed yaml"} = YamlElixir.read_all_from_file(path)
-    assert {:error, "malformed yaml"} = YamlElixir.read_from_file(path)
+    assert {:error, %YamlElixir.ParsingError{}} = YamlElixir.read_all_from_file(path)
+    assert {:error, %YamlElixir.ParsingError{}} = YamlElixir.read_from_file(path)
+  end
+
+  test "bang function should raise exception for invalid file" do
+    path = test_data("invalid")
+
+    assert_raise YamlElixir.ParsingError, "malformed yaml", fn ->
+      YamlElixir.read_all_from_file!(path)
+    end
+  end
+
+  test "should get file error tuple for non-existent file" do
+    path = test_data("not_found")
+    assert {:error, %YamlElixir.FileNotFoundError{}} = YamlElixir.read_all_from_file(path)
+    assert {:error, %YamlElixir.FileNotFoundError{}} = YamlElixir.read_from_file(path)
+  end
+
+  test "bang function should raise exception for non-existent file" do
+    path = test_data("not_found")
+
+    assert_raise YamlElixir.FileNotFoundError, ~r/Failed to open file/, fn ->
+      YamlElixir.read_all_from_file!(path)
+    end
   end
 
   test "should receive keyword list when used `maps_as_keywords` option" do
