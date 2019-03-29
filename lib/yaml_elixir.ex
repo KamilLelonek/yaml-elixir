@@ -6,6 +6,7 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
+  @spec read_all_from_file!(any(), any()) :: any()
   def read_all_from_file!(path, options \\ []) do
     case read_all_from_file(path, options) do
       {:ok, result} -> result
@@ -13,9 +14,8 @@ defmodule YamlElixir do
     end
   end
 
-  def read_all_from_file(path, options \\ []) do
-    do_read(:file, path, options)
-  end
+  def read_all_from_file(path, options \\ []),
+    do: do_read(:file, path, options)
 
   def read_from_file!(path, options \\ []) do
     case read_from_file(path, options) do
@@ -24,9 +24,8 @@ defmodule YamlElixir do
     end
   end
 
-  def read_from_file(path, options \\ []) do
-    do_read(:file, path, Keyword.put(options, :one_result, true))
-  end
+  def read_from_file(path, options \\ []),
+    do: do_read(:file, path, Keyword.put(options, :one_result, true))
 
   def read_all_from_string!(string, options \\ []) do
     case read_all_from_string(string, options) do
@@ -35,9 +34,8 @@ defmodule YamlElixir do
     end
   end
 
-  def read_all_from_string(string, options \\ []) do
-    do_read(:string, string, options)
-  end
+  def read_all_from_string(string, options \\ []),
+    do: do_read(:string, string, options)
 
   def read_from_string!(string, options \\ []) do
     case read_from_string(string, options) do
@@ -46,9 +44,8 @@ defmodule YamlElixir do
     end
   end
 
-  def read_from_string(string, options \\ []) do
-    do_read(:string, string, Keyword.put(options, :one_result, true))
-  end
+  def read_from_string(string, options \\ []),
+    do: do_read(:string, string, Keyword.put(options, :one_result, true))
 
   defp do_read(type, source, options) do
     {:ok, prepare_and_read(type, source, options)}
