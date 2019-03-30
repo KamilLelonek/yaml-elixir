@@ -6,40 +6,57 @@ defmodule YamlElixir do
     str_node_as_binary: true
   ]
 
-  def read_all_from_file!(path, options \\ []),
-    do: prepare_and_read(:file, path, options)
-
-  def read_all_from_file(path, options \\ []) do
-    {:ok, read_all_from_file!(path, options)}
-  catch
-    _, _ -> {:error, "malformed yaml"}
+  def read_all_from_file!(path, options \\ []) do
+    case read_all_from_file(path, options) do
+      {:ok, result} -> result
+      {:error, error} -> raise error
+    end
   end
 
-  def read_from_file!(path, options \\ []),
-    do: prepare_and_read(:file, path, Keyword.put(options, :one_result, true))
+  def read_all_from_file(path, options \\ []),
+    do: do_read(:file, path, options)
 
-  def read_from_file(path, options \\ []) do
-    {:ok, read_from_file!(path, options)}
-  catch
-    _, _ -> {:error, "malformed yaml"}
+  def read_from_file!(path, options \\ []) do
+    case read_from_file(path, options) do
+      {:ok, result} -> result
+      {:error, error} -> raise error
+    end
   end
 
-  def read_all_from_string!(string, options \\ []),
-    do: prepare_and_read(:string, string, options)
+  def read_from_file(path, options \\ []),
+    do: do_read(:file, path, Keyword.put(options, :one_result, true))
 
-  def read_all_from_string(string, options \\ []) do
-    {:ok, read_all_from_string!(string, options)}
-  catch
-    _, _ -> {:error, "malformed yaml"}
+  def read_all_from_string!(string, options \\ []) do
+    case read_all_from_string(string, options) do
+      {:ok, result} -> result
+      {:error, error} -> raise error
+    end
   end
 
-  def read_from_string!(string, options \\ []),
-    do: prepare_and_read(:string, string, Keyword.put(options, :one_result, true))
+  def read_all_from_string(string, options \\ []),
+    do: do_read(:string, string, options)
 
-  def read_from_string(string, options \\ []) do
-    {:ok, read_from_string!(string, options)}
+  def read_from_string!(string, options \\ []) do
+    case read_from_string(string, options) do
+      {:ok, result} -> result
+      {:error, error} -> raise error
+    end
+  end
+
+  def read_from_string(string, options \\ []),
+    do: do_read(:string, string, Keyword.put(options, :one_result, true))
+
+  defp do_read(type, source, options) do
+    {:ok, prepare_and_read(type, source, options)}
   catch
-    _, _ -> {:error, "malformed yaml"}
+    {:yamerl_exception, [{_, _, message, _, _, :file_open_failure, _, _}]} ->
+      {:error, %YamlElixir.FileNotFoundError{message: List.to_string(message)}}
+
+    {:yamerl_exception, [{_, _, message, _, _, :no_matching_anchor, _, _}]} ->
+      {:error, %YamlElixir.ParsingError{message: List.to_string(message)}}
+
+    _, _ ->
+      {:error, %YamlElixir.ParsingError{message: "malformed yaml"}}
   end
 
   defp prepare_and_read(type, source, options) do
