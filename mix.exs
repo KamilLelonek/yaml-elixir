@@ -17,7 +17,7 @@ defmodule YamlElixir.Mixfile do
   defp deps do
     [
       {:yamerl, "~> 0.7"},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:ex_doc, "~> 0.19", only: :dev}
     ]
   end
 
