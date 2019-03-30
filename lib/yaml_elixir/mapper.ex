@@ -72,18 +72,11 @@ defmodule YamlElixir.Mapper do
   defp append_kv(list, key, value),
     do: [{key, value} | list]
 
-  defp append_list_kv(list, key, value),
-    do: list ++ [{String.to_atom(key), value}]
-
   defp maps_aggregator(options) do
-    if Keyword.get(options, :maps_as_keywords) do
-      if Keyword.get(options, :atoms) do
-        &append_list_kv/3
-      else
-        &append_kv/3
-      end
+    with true <- Keyword.get(options, :maps_as_keywords) do
+      &append_kv/3
     else
-      &Map.put_new/3
+      _ -> &Map.put_new/3
     end
   end
 end

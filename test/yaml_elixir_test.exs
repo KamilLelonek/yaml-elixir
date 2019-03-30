@@ -132,36 +132,6 @@ defmodule YamlElixirTest do
     assert_parse_string(yaml, %{["a", "b"] => [1, 2], ["c", "d"] => [3, 4], ["e"] => 5})
   end
 
-  test "map list without atom" do
-    import YamlElixir.Sigil
-
-    yaml = """
-    ---
-    list:
-      - a: 1
-      - b: 2
-      - c: 3
-      - d: 4
-    """
-
-    assert_parse_string(yaml, %{"list" => [%{"a" => 1}, %{"b" => 2}, %{"c" => 3}, %{"d" => 4}]})
-  end
-
-  test "sigil list atom" do
-    import YamlElixir.Sigil
-
-    yaml = ~y"""
-    ---
-    list:
-      - a: 1
-      - b: 2
-      - c: 3
-      - d: 4
-    """a
-
-    %{"list" => [a: 1, b: 2, c: 1, d: 4]} == yaml
-  end
-
   test "sigil should parse string document" do
     import YamlElixir.Sigil
 
