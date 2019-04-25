@@ -87,6 +87,40 @@ and then using the somewhat inconvenient syntax for it:
 atom_key: !<tag:yamerl,2012:atom> atom_value
 ```
 
+### Support for keyword lists
+
+Keyword lists can be returned in two ways. Either all maps can be transformed into keyword
+lists via the option `maps_as_keywords: true` or individually with a tag. To mark a block
+as a keyword list you must first pass in the node module which can process the tokens:
+
+```elixir
+:yamerl_app.set_param(:node_mods, [YamlElixir.Node.KeywordList])
+```
+
+and then tag the desired block:
+
+```yaml
+prod:
+  foo: !<tag:yaml_elixir,2019:keyword_list>
+    foo: bar
+    bar: foo
+```
+
+This will return:
+
+```elixir
+%{"prod" => %{"foo" => [{"bar", "foo"}, {"foo", "bar"}]}}
+```
+
+Note that due to a quirk in how `yamerl` parses Yaml documents, using the flow style with
+this tag will not work. Do not expect your document to be processed if you write your
+yaml like this:
+
+```yaml
+prod:
+  foo: !<tag:yaml_elixir,2019:keyword_list> {foo: bar, bar: foo}
+```
+
 ### Elixir Sigil
 
 The `YamlElixir.Sigil` module provides the `~y` sigil that can be useful for example for keeping short configurations or other inlined yaml.

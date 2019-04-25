@@ -19,6 +19,18 @@ defmodule YamlElixir.Mapper do
   defp _to_map({:yamerl_map, :yamerl_node_map, _tag, _loc, map_tuples}, options),
     do: _tuples_to_map(map_tuples, empty_container(options), options)
 
+  defp _to_map({:yaml_elixir_keyword_list, _module, _tag, _loc, tuples}, options) do
+    tuples
+    |> _tuples_to_map(empty_container(options), options)
+    |> to_keyword_list()
+  end
+
+  defp to_keyword_list(map) when is_map(map) do
+    for {key, value} <- map, do: {key, value}
+  end
+
+  defp to_keyword_list(keyword_list), do: keyword_list
+
   defp _to_map(
          {:yamerl_str, :yamerl_node_str, _tag, _loc, <<?:, _::binary>> = element},
          options

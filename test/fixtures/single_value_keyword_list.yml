@@ -1,0 +1,3 @@
+prod: !<tag:yaml_elixir,2019:keyword_list>
+  foo: bar
+  bar: foo
