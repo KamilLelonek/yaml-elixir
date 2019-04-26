@@ -214,6 +214,29 @@ defmodule YamlElixirTest do
     )
   end
 
+  test "should receive maps as keyword lists when map is tagged in the file" do
+    assert_parse_file(
+      "keyword_list",
+      %{"prod" => %{"foo" => [{"bar", "foo"}, {"foo", "bar"}], "bar" => %{"foo" => "bar", "bar" => "foo"}}},
+      node_mods: [YamlElixir.Node.KeywordList]
+    )
+  end
+
+  test "should receive a single map entry with a keyword list as its value" do
+    assert_parse_file(
+      "single_value_keyword_list",
+      %{"prod" => [{"bar", "foo"}, {"foo", "bar"}]},
+      node_mods: [YamlElixir.Node.KeywordList]
+    )
+  end
+
+  test "parsing a yaml file with keyword list tagged flow style map will throw an exception" do
+    assert_raise YamlElixir.ParsingError, fn ->
+      path = test_data("bad_keyword_list")
+      YamlElixir.read_from_file!(path, node_mods: [YamlElixir.Node.KeywordList])
+    end
+  end
+
   defp test_data(file_name), do: Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do
