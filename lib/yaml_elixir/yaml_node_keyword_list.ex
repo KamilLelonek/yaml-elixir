@@ -1,22 +1,13 @@
 defmodule YamlElixir.Node.KeywordList do
   require Record
+
   import YamlElixir.Records, only: :macros
 
   @tag 'tag:yaml_elixir,2019:keyword_list'
 
-  def tags(), do: [@tag]
+  def tags, do: [@tag]
 
-  def try_construct_token(constr, node, token) do
-    if Record.is_record(:yamerl_collection_start, token)
-        and yamerl_collection_start(token, :kind) == :mapping
-        and yamerl_tag(yamerl_collection_start(token, :tag), :uri) == @tag do
-      construct_token(constr, node, token)
-    else
-      :unrecognized
-    end
-  end
-
-  def construct_token(constr, node, yamerl_collection_start() = token) do
+  def construct_token(_constr, _node, yamerl_collection_start() = token) do
     node =
       unfinished_node(
         module: __MODULE__,
@@ -25,20 +16,20 @@ defmodule YamlElixir.Node.KeywordList do
         priv: []
       )
 
-    {:unfinished, node, false};
+    {:unfinished, node, false}
   end
 
   def construct_token(_, unfinished_node() = node, yamerl_mapping_key() = _token) do
     node = unfinished_node(node, priv: {'$expecting_key', unfinished_node(node, :priv)})
 
-    {:unfinished, node, false};
+    {:unfinished, node, false}
   end
 
   def construct_token(_, unfinished_node() = node, yamerl_mapping_value() = _token) do
     {key, keyword_list} = unfinished_node(node, :priv)
     node = unfinished_node(node, priv: {key, '$expecting_value', keyword_list})
 
-    {:unfinished, node, false};
+    {:unfinished, node, false}
   end
 
   def construct_token(constr, unfinished_node() = node, yamerl_collection_end() = _token) do
@@ -68,26 +59,15 @@ defmodule YamlElixir.Node.KeywordList do
         {:keyword_list, _} ->
           {key, '$expecting_value', keyword_list} = unfinished_node(node, :priv)
 
-          unfinished_node(node, path: {:keyword_list, :undefined}, priv: [{key, value} | keyword_list])
+          unfinished_node(node,
+            path: {:keyword_list, :undefined},
+            priv: [{key, value} | keyword_list]
+          )
       end
 
     {:unfinished, node, false}
   end
 
-  def construct_node(_, _, token) do
-    error =
-      yamerl_parsing_error(
-        name: :not_a_mapping,
-        token: token,
-        text: "Invalid mapping",
-        line: elem(unfinished_node(node, :pres), 0),
-        column: elem(unfinished_node(node, :pres), 1)
-      )
-
-      throw(error)
-  end
-
-  def node_pres(node) do
-    elem(node, 2)
-  end
+  def node_pres(node),
+    do: elem(node, 2)
 end

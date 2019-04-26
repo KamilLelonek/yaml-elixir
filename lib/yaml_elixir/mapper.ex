@@ -25,12 +25,6 @@ defmodule YamlElixir.Mapper do
     |> to_keyword_list()
   end
 
-  defp to_keyword_list(map) when is_map(map) do
-    for {key, value} <- map, do: {key, value}
-  end
-
-  defp to_keyword_list(keyword_list), do: keyword_list
-
   defp _to_map(
          {:yamerl_str, :yamerl_node_str, _tag, _loc, <<?:, _::binary>> = element},
          options
@@ -39,6 +33,13 @@ defmodule YamlElixir.Mapper do
 
   defp _to_map({:yamerl_null, :yamerl_node_null, _tag, _loc}, _options), do: nil
   defp _to_map({_yamler_element, _yamler_node_element, _tag, _loc, elem}, _options), do: elem
+
+  defp to_keyword_list(map) when is_map(map) do
+    for {key, value} <- map,
+        do: {key, value}
+  end
+
+  defp to_keyword_list(keyword_list), do: keyword_list
 
   defp _tuples_to_map([], map, _options), do: map
 
