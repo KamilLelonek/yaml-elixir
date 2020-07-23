@@ -132,6 +132,50 @@ defmodule YamlElixirTest do
     assert_parse_string(yaml, %{["a", "b"] => [1, 2], ["c", "d"] => [3, 4], ["e"] => 5})
   end
 
+  test "should parse flat json string" do
+    json = """
+      {
+        "a": "a",
+        "b": 1,
+        "c": true,
+        "d": null,
+        "e": "null",
+        "f": 1.2
+      }
+    """
+
+    assert_parse_string(json, %{
+      "a" => "a",
+      "b" => 1,
+      "c" => true,
+      "d" => nil,
+      "e" => "null",
+      "f" => 1.2
+    }, schema: :json)
+  end
+
+  test "should parse nested json string" do
+    json = """
+      {
+        "object": {
+          "string": "value",
+          "null": null,
+          "number": 1
+        },
+        "array": [1, 2, null, "4"]
+      }
+    """
+
+    assert_parse_string(json, %{
+      "object" => %{
+        "string" => "value",
+        "null" => nil,
+        "number" => 1
+      },
+      "array" => [1, 2, nil, "4"]
+    }, schema: :json)
+  end
+
   test "sigil should parse string document" do
     import YamlElixir.Sigil
 
