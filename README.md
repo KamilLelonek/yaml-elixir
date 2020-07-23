@@ -168,3 +168,4 @@ In case of any problems or suggestions do not hesitate and create a pull request
 - [rothsberg](https://github.com/rothsberg)
 - [msimonborg](https://github.com/msimonborg)
 - [mononym](https://github.com/mononym)
+- [EugeneOsadchyi](https://github.com/EugeneOsadchyi)
