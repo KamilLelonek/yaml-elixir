@@ -1,12 +1,17 @@
-# Yaml parser for Elixir
+# YAML Parser for Elixir
 
 [![Build Status](https://travis-ci.org/KamilLelonek/yaml-elixir.svg)](https://travis-ci.org/KamilLelonek/yaml-elixir)
+[![Module Version](https://img.shields.io/hexpm/v/yaml_elixir.svg)](https://hex.pm/packages/yaml_elixir)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/yaml_elixir/)
+[![Total Download](https://img.shields.io/hexpm/dt/yaml_elixir.svg)](https://hex.pm/packages/yaml_elixir)
+[![License](https://img.shields.io/hexpm/l/yaml_elixir.svg)](https://github.com/KamilLelonek/yaml-elixir/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/KamilLelonek/yaml-elixir.svg)](https://github.com/KamilLelonek/yaml-elixir/commits/master)
 
 This is a wrapper for [yamerl](https://github.com/yakaz/yamerl) - a native Erlang `YAML` parser which brings all of the functionalities to Elixir language.
 
 ## Installation
 
-Add `yaml_elixir` as a dependency in your `mix.exs` file.
+Add `:yaml_elixir` as a dependency in your `mix.exs` file.
 
 ```elixir
 defp deps do
@@ -23,7 +28,7 @@ Once you've done that, run `mix deps.get` in your command line to fetch the depe
 
 ## Usage
 
-With `Yaml Elixir` you have an access to two functionalities: one for parsing a string and an another one for parsing a file.
+With `YamlElixir` you have an access to two functionalities: one for parsing a string and an another one for parsing a file.
 
 Run `iex -S mix` in your terminal to try how their works.
 
@@ -112,9 +117,9 @@ This will return:
 %{"prod" => %{"foo" => [{"bar", "foo"}, {"foo", "bar"}]}}
 ```
 
-Note that due to a quirk in how `yamerl` parses Yaml documents, using the flow style with
+Note that due to a quirk in how `yamerl` parses YAML documents, using the flow style with
 this tag will not work. Do not expect your document to be processed if you write your
-yaml like this:
+YAML like this:
 
 ```yaml
 prod:
@@ -123,7 +128,7 @@ prod:
 
 ### Elixir Sigil
 
-The `YamlElixir.Sigil` module provides the `~y` sigil that can be useful for example for keeping short configurations or other inlined yaml.
+The `YamlElixir.Sigil` module provides the `~y` sigil that can be useful for example for keeping short configurations or other inlined YAML.
 
 ```elixir
 import YamlElixir.Sigil
@@ -137,7 +142,7 @@ files:
 """
 ```
 
-Use the `a` sigil modifier to turn on atom values from yaml:
+Use the `a` sigil modifier to turn on atom values from YAML:
 
 ```elixir
 ~y":answer: yes"a
@@ -151,7 +156,7 @@ Sometimes, you may want to use `yaml_elixir` in your `mix` tasks. To do that, yo
 
     Application.ensure_all_started(:yaml_elixir)
 
-After that, you will be able to use `yaml-elixir` in your `mix` tasks.
+After that, you will be able to use `:yaml-elixir` in your `mix` tasks.
 
 ## Contribution
 
@@ -169,3 +174,11 @@ In case of any problems or suggestions do not hesitate and create a pull request
 - [msimonborg](https://github.com/msimonborg)
 - [mononym](https://github.com/mononym)
 - [EugeneOsadchyi](https://github.com/EugeneOsadchyi)
+
+
+## Copyright and License
+
+Copyright (c) 2017 Kamil Lelonek
+
+This library is MIT licensed. See the
+[LICENSE](https://github.com/KamilLelonek/yaml-elixir/blob/master/LICENSE.txt) for details.

@@ -1,29 +1,33 @@
 defmodule YamlElixir.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/KamilLelonek/yaml-elixir"
+  @version "2.5.0"
+
   def project do
     [
       app: :yaml_elixir,
-      version: "2.5.0",
+      version: @version,
       elixir: "~> 1.8",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
 
   defp deps do
     [
       {:yamerl, "~> 0.7"},
-      {:ex_doc, "~> 0.20", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
   defp description do
     """
-    Yaml parser for Elixir based on native Erlang implementation.
+    YAML parser for Elixir based on native Erlang implementation.
     """
   end
 
@@ -32,7 +36,16 @@ defmodule YamlElixir.Mixfile do
       files: ["lib", "config", "mix.exs", "README.md"],
       maintainers: ["Kamil Lelonek"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/KamilLelonek/yaml-elixir"}
+      links: %{"GitHub" => @source_url}
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [{:"README.md", [title: "Overview"]}],
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v#{@version}"
     ]
   end
 end
