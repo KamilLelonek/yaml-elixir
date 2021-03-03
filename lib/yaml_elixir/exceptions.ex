@@ -13,4 +13,9 @@ defmodule YamlElixir.ParsingError do
       type: error_type
     }
   end
+  def from_yamerl(_) do
+    %__MODULE__{
+      message: "malformed yaml"
+    }
+  end
 end
