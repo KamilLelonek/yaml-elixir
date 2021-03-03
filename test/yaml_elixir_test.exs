@@ -205,7 +205,7 @@ defmodule YamlElixirTest do
     assert {:error, %YamlElixir.ParsingError{}} = YamlElixir.read_from_string(yaml)
   end
 
-  test "errors should have line, column, and type values" do
+  test "exception structs should have line, column, and type values" do
     yaml = "*invalid"
     {:error, error} = YamlElixir.read_all_from_string(yaml)
 
@@ -219,7 +219,7 @@ defmodule YamlElixirTest do
   test "bang function should raise exception for invalid literal" do
     yaml = "*invalid"
 
-    assert_raise YamlElixir.ParsingError, ~s(No anchor corresponds to alias "invalid"), fn ->
+    assert_raise YamlElixir.ParsingError, ~s/No anchor corresponds to alias "invalid" (line: 1, column: 1)/, fn ->
       YamlElixir.read_all_from_string!(yaml)
     end
   end
