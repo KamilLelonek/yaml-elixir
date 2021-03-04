@@ -144,14 +144,18 @@ defmodule YamlElixirTest do
       }
     """
 
-    assert_parse_string(json, %{
-      "a" => "a",
-      "b" => 1,
-      "c" => true,
-      "d" => nil,
-      "e" => "null",
-      "f" => 1.2
-    }, schema: :json)
+    assert_parse_string(
+      json,
+      %{
+        "a" => "a",
+        "b" => 1,
+        "c" => true,
+        "d" => nil,
+        "e" => "null",
+        "f" => 1.2
+      },
+      schema: :json
+    )
   end
 
   test "should parse nested json string" do
@@ -166,14 +170,18 @@ defmodule YamlElixirTest do
       }
     """
 
-    assert_parse_string(json, %{
-      "object" => %{
-        "string" => "value",
-        "null" => nil,
-        "number" => 1
+    assert_parse_string(
+      json,
+      %{
+        "object" => %{
+          "string" => "value",
+          "null" => nil,
+          "number" => 1
+        },
+        "array" => [1, 2, nil, "4"]
       },
-      "array" => [1, 2, nil, "4"]
-    }, schema: :json)
+      schema: :json
+    )
   end
 
   test "sigil should parse string document" do
@@ -206,22 +214,23 @@ defmodule YamlElixirTest do
   end
 
   test "exception structs should have line, column, and type values" do
-    yaml = "*invalid"
-    {:error, error} = YamlElixir.read_all_from_string(yaml)
+    {:error, error} = YamlElixir.read_all_from_string("*invalid")
 
     assert %YamlElixir.ParsingError{
-      line: 1,
-      column: 1,
-      type: :no_matching_anchor
-    } = error
+             line: 1,
+             column: 1,
+             type: :no_matching_anchor
+           } = error
   end
 
   test "bang function should raise exception for invalid literal" do
     yaml = "*invalid"
 
-    assert_raise YamlElixir.ParsingError, ~s/No anchor corresponds to alias "invalid" (line: 1, column: 1)/, fn ->
-      YamlElixir.read_all_from_string!(yaml)
-    end
+    assert_raise YamlElixir.ParsingError,
+                 ~s/No anchor corresponds to alias "invalid" (line: 1, column: 1)/,
+                 fn ->
+                   YamlElixir.read_all_from_string!(yaml)
+                 end
   end
 
   test "should get error tuple for invalid file" do
@@ -272,7 +281,12 @@ defmodule YamlElixirTest do
   test "should receive maps as keyword lists when map is tagged in the file" do
     assert_parse_file(
       "keyword_list",
-      %{"prod" => %{"foo" => [{"bar", "foo"}, {"foo", "bar"}], "bar" => %{"foo" => "bar", "bar" => "foo"}}},
+      %{
+        "prod" => %{
+          "foo" => [{"bar", "foo"}, {"foo", "bar"}],
+          "bar" => %{"foo" => "bar", "bar" => "foo"}
+        }
+      },
       node_mods: [YamlElixir.Node.KeywordList]
     )
   end
