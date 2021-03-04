@@ -2,7 +2,7 @@ defmodule YamlElixir.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/KamilLelonek/yaml-elixir"
-  @version "2.5.0"
+  @version "2.6.0"
 
   def project do
     [
@@ -20,7 +20,7 @@ defmodule YamlElixir.Mixfile do
 
   defp deps do
     [
-      {:yamerl, "~> 0.7"},
+      {:yamerl, "~> 0.8"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
