@@ -299,13 +299,6 @@ defmodule YamlElixirTest do
     )
   end
 
-  test "parsing a yaml file with keyword list tagged flow style map will throw an exception" do
-    assert_raise YamlElixir.ParsingError, fn ->
-      path = test_data("bad_keyword_list")
-      YamlElixir.read_from_file!(path, node_mods: [YamlElixir.Node.KeywordList])
-    end
-  end
-
   defp test_data(file_name), do: Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do
