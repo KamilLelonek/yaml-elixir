@@ -52,8 +52,8 @@ defmodule YamlElixir do
     {:yamerl_exception, [{_, _, message, _, _, :file_open_failure, _, _}]} ->
       {:error, %YamlElixir.FileNotFoundError{message: List.to_string(message)}}
 
-    {:yamerl_exception, [{_, _, message, _, _, :no_matching_anchor, _, _}]} ->
-      {:error, %YamlElixir.ParsingError{message: List.to_string(message)}}
+    {:yamerl_exception, [error | _]} ->
+      {:error, YamlElixir.ParsingError.from_yamerl(error)}
 
     _, _ ->
       {:error, %YamlElixir.ParsingError{message: "malformed yaml"}}
