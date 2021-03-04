@@ -174,6 +174,8 @@ In case of any problems or suggestions do not hesitate and create a pull request
 - [msimonborg](https://github.com/msimonborg)
 - [mononym](https://github.com/mononym)
 - [EugeneOsadchyi](https://github.com/EugeneOsadchyi)
+- [TylerPachal](https://github.com/TylerPachal)
+- [kianmeng](https://github.com/kianmeng)
 
 
 ## Copyright and License
