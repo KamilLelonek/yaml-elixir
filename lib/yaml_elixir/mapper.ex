@@ -6,6 +6,7 @@ defmodule YamlElixir.Mapper do
     yaml
     |> _to_map(options)
     |> extract_map(options)
+    |> merge_anchors(options)
   end
 
   defp extract_map(nil, options), do: empty_container(options)
@@ -92,5 +93,30 @@ defmodule YamlElixir.Mapper do
     else
       _ -> &Map.put_new/3
     end
+  end
+
+  defp merge_anchors(value, options) do
+    if options |> Keyword.get(:merge_anchors) do
+      _merge_anchors(value)
+    else
+      value
+    end
+  end
+
+  defp _merge_anchors(value) when is_list(value), do: value |> Enum.map(&_merge_anchors/1)
+
+  defp _merge_anchors(map) when is_map(map) do
+    map
+    |> Enum.reduce(%{}, fn {k, v}, acc ->
+      if k == "<<" || k == :"<<" do
+        acc |> Map.merge(v)
+      else
+        acc |> Map.put(k, _merge_anchors(v))
+      end
+    end)
+  end
+
+  defp _merge_anchors(val) do
+    val
   end
 end
