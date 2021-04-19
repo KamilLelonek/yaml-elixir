@@ -150,6 +150,27 @@ Use the `a` sigil modifier to turn on atom values from YAML:
 
 You can find more examples in [`test` directory](https://github.com/KamilLelonek/yaml-elixir/blob/master/test/yaml_elixir_test.exs).
 
+### Merging anchors
+
+In case your YAML [contains anchors](http://blogs.perl.org/users/tinita/2019/05/reusing-data-with-yaml-anchors-aliases-and-merge-keys.html), you can have these resolved by passing `merge_anchors: true`:
+
+```elixir
+yaml = """
+yaml: 
+  foo: &foo
+    bar: 42
+  baz: 
+    << *foo
+"""
+YamlElixir.read_from_string(yaml, merge_anchors: true)
+```
+
+will result in
+
+```elixir
+%{ "yaml" => %{ "foo" => %{ "bar" => 42 }, "baz" => %{ "bar" => 42 } } }
+```
+
 ## Mix tasks
 
 Sometimes, you may want to use `yaml_elixir` in your `mix` tasks. To do that, you must ensure that the application has started.

@@ -1,0 +1,4 @@
+foo: &foo
+  bar: baz
+merged_foo:
+  <<: *foo
