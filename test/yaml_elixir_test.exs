@@ -299,6 +299,25 @@ defmodule YamlElixirTest do
     )
   end
 
+  test "should merge keys for a file using anchors" do
+    assert_parse_file(
+      "simple_anchors",
+      %{"foo" => %{"bar" => "baz"}, "merged_foo" => %{"bar" => "baz"}}
+    )
+  end
+
+  test "should merge output for a string using anchors" do
+    yaml = """
+    a: &a
+      b: 42
+    c:
+     <<: *a
+     d: 43
+    """
+
+    assert_parse_string(yaml, %{"a" => %{"b" => 42}, "c" => %{"b" => 42, "d" => 43}})
+  end
+
   defp test_data(file_name), do: Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do
