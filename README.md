@@ -156,10 +156,10 @@ In case your YAML [contains anchors](http://blogs.perl.org/users/tinita/2019/05/
 
 ```elixir
 yaml = """
-yaml: 
+yaml:
   foo: &foo
     bar: 42
-  baz: 
+  baz:
     << *foo
 """
 YamlElixir.read_from_string(yaml, merge_anchors: true)
@@ -197,7 +197,7 @@ In case of any problems or suggestions do not hesitate and create a pull request
 - [EugeneOsadchyi](https://github.com/EugeneOsadchyi)
 - [TylerPachal](https://github.com/TylerPachal)
 - [kianmeng](https://github.com/kianmeng)
-
+- [floriank](https://github.com/floriank)
 
 ## Copyright and License
 
