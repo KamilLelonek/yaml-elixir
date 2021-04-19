@@ -108,7 +108,7 @@ defmodule YamlElixir.Mapper do
   defp _merge_anchors(map) when is_map(map) do
     map
     |> Enum.reduce(%{}, fn {k, v}, acc ->
-      if k == "<<" || k == :"<<" do
+      if k == "<<" do
         acc |> Map.merge(v)
       else
         acc |> Map.put(k, _merge_anchors(v))
