@@ -198,10 +198,11 @@ In case of any problems or suggestions do not hesitate and create a pull request
 - [TylerPachal](https://github.com/TylerPachal)
 - [kianmeng](https://github.com/kianmeng)
 - [floriank](https://github.com/floriank)
+- [coryodaniel](https://github.com/coryodaniel)
 
 ## Copyright and License
 
-Copyright (c) 2017 Kamil Lelonek
+Copyright (c) 2021 Kamil Lelonek
 
 This library is MIT licensed. See the
 [LICENSE](https://github.com/KamilLelonek/yaml-elixir/blob/master/LICENSE.txt) for details.
