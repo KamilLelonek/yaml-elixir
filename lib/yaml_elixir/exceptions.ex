@@ -1,9 +1,16 @@
 defmodule YamlElixir.FileNotFoundError do
   defexception message: "file error"
+  @type t :: %__MODULE__{message: String.t()}
 end
 
 defmodule YamlElixir.ParsingError do
   defexception [:line, :column, :type, message: "parsing error"]
+  @type t :: %__MODULE__{
+    line: integer() | nil,
+    column: integer() | nil,
+    type: atom() | nil,
+    message: String.t()
+  }
 
   @impl true
   def message(%__MODULE__{message: message, line: nil, column: nil}), do: message
