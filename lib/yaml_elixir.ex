@@ -3,7 +3,8 @@ defmodule YamlElixir do
 
   @yamerl_options [
     detailed_constr: true,
-    str_node_as_binary: true
+    str_node_as_binary: true,
+    keep_duplicate_keys: true
   ]
 
   def read_all_from_file!(path, options \\ []) do
@@ -13,8 +14,7 @@ defmodule YamlElixir do
     end
   end
 
-  def read_all_from_file(path, options \\ []),
-    do: do_read(:file, path, options)
+  def read_all_from_file(path, options \\ []), do: do_read(:file, path, options)
 
   def read_from_file!(path, options \\ []) do
     case read_from_file(path, options) do
@@ -33,8 +33,7 @@ defmodule YamlElixir do
     end
   end
 
-  def read_all_from_string(string, options \\ []),
-    do: do_read(:string, string, options)
+  def read_all_from_string(string, options \\ []), do: do_read(:string, string, options)
 
   def read_from_string!(string, options \\ []) do
     case read_from_string(string, options) do
@@ -74,8 +73,7 @@ defmodule YamlElixir do
     |> Mapper.process(options)
   end
 
-  defp merge_options(options),
-    do: Keyword.merge(options, @yamerl_options)
+  defp merge_options(options), do: Keyword.merge(options, @yamerl_options)
 
   defp yamerl_constr(:file, path, options), do: :yamerl_constr.file(path, options)
   defp yamerl_constr(:string, data, options), do: :yamerl_constr.string(data, options)
