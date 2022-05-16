@@ -338,6 +338,25 @@ defmodule YamlElixirTest do
     )
   end
 
+  test "should merge complex anchors" do
+    assert_parse_file(
+      "anchors",
+      %{
+        "ctrl" => %{
+          "smartcontract" => %{
+            ["fetch", "save", "update", "delete"] => "StoreAPI",
+            ["publish", "disable"] => "CoreAPI",
+            ["search"] => "IndexerAPI",
+            ["validate", "start", "stop", "cancel"] => "BPAPI"
+          }
+        },
+        "default" => %{["publish", "disable"] => "CoreAPI", ["search"] => "IndexerAPI"},
+        "storeAPI" => %{["fetch", "save", "update", "delete"] => "StoreAPI"}
+      },
+      merge_anchors: true
+    )
+  end
+
   defp test_data(file_name), do: Path.join(File.cwd!(), "test/fixtures/#{file_name}.yml")
 
   defp assert_parse_multi_file(file_name, result, options \\ []) do

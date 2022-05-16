@@ -1,0 +1,11 @@
+default: &coreAPI
+  [publish, disable]: CoreAPI
+  [search]: IndexerAPI
+storeAPI: &storeAPI
+  [fetch, save, update, delete]: StoreAPI
+
+ctrl:
+  smartcontract:
+    [validate, start, stop, cancel]: BPAPI
+    << : *storeAPI
+    << : *coreAPI

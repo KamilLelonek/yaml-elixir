@@ -68,6 +68,7 @@ defmodule YamlElixir.Mapper do
     |> maybe_atom(name, original_name)
   end
 
+  defp key_for("<<", _options), do: "<<#{System.unique_integer([:positive, :monotonic])}"
   defp key_for(name, _options), do: name
 
   defp maybe_atom(true, name, _original_name), do: String.to_atom(name)
@@ -105,7 +106,7 @@ defmodule YamlElixir.Mapper do
   defp merge_anchors(map) when is_map(map) do
     map
     |> Enum.reduce(%{}, fn
-      {"<<", v}, acc -> acc |> Map.merge(v)
+      {<<"<<", _::binary>>, v}, acc -> acc |> Map.merge(v)
       {k, v}, acc -> acc |> Map.put(k, merge_anchors(v))
     end)
   end
