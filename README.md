@@ -152,7 +152,7 @@ You can find more examples in [`test` directory](https://github.com/KamilLelonek
 
 ### Merging anchors
 
-In case your YAML [contains anchors](http://blogs.perl.org/users/tinita/2019/05/reusing-data-with-yaml-anchors-aliases-and-merge-keys.html), you can have these resolved by passing `merge_anchors: true`:
+In case your YAML contains [anchors](http://blogs.perl.org/users/tinita/2019/05/reusing-data-with-yaml-anchors-aliases-and-merge-keys.html), you can have these resolved by passing `merge_anchors: true`:
 
 ```elixir
 yaml = """
@@ -202,7 +202,7 @@ In case of any problems or suggestions do not hesitate and create a pull request
 
 ## Copyright and License
 
-Copyright (c) 2021 Kamil Lelonek
+Copyright (c) 2022 Kamil Lelonek
 
 This library is MIT licensed. See the
 [LICENSE](https://github.com/KamilLelonek/yaml-elixir/blob/master/LICENSE.txt) for details.
