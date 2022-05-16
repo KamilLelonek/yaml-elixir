@@ -9,9 +9,6 @@ defmodule YamlElixir.Mapper do
     |> maybe_merge_anchors(options)
   end
 
-  defp extract_map(nil, options), do: empty_container(options)
-  defp extract_map(map, _), do: map
-
   defp _to_map({:yamerl_doc, document}, options), do: _to_map(document, options)
 
   defp _to_map({:yamerl_seq, :yamerl_node_seq, _tag, _loc, seq, _n}, options),
@@ -84,22 +81,22 @@ defmodule YamlElixir.Mapper do
     end
   end
 
-  defp append_kv(list, key, value),
-    do: [{key, value} | list]
+  defp extract_map(nil, options), do: empty_container(options)
+  defp extract_map(map, _), do: map
 
   defp maps_aggregator(options) do
     with true <- Keyword.get(options, :maps_as_keywords) do
-      &append_kv/3
+      &[{&2, &3} | &1]
     else
       _ -> &Map.put_new/3
     end
   end
 
   defp maybe_merge_anchors(value, options) do
-    if Keyword.get(options, :merge_anchors) do
+    with true <- Keyword.get(options, :merge_anchors) do
       merge_anchors(value)
     else
-      value
+      _ -> value
     end
   end
 
