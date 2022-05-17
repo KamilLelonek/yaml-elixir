@@ -69,7 +69,7 @@ iex(1)> yaml = """
 ...(1)>   b: 1
 ...(1)>   c: true
 ...(1)>   d: ~
-...(1)>   e: nil,
+...(1)>   e: nil
 ...(1)>   :f: :atom
 ...(1)> """
 "  a: a\n  b: 1\n  c: true\n  d: ~\n  e: nil\n"
