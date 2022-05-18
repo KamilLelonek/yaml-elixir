@@ -35,24 +35,24 @@ Run `iex -S mix` in your terminal to try how their works.
 ### Parsing a string
 
 ```elixir
-iex(1)> yaml = """
-...(1)>   a: a
-...(1)>   b: 1
-...(1)>   c: true
-...(1)>   d: ~
-...(1)>   e: nil
-...(1)> """
+yaml = """
+  a: a
+  b: 1
+  c: true
+  d: ~
+  e: nil
+"""
 "  a: a\n  b: 1\n  c: true\n  d: ~\n  e: nil\n"
-iex(2)> YamlElixir.read_from_string(yaml)
+YamlElixir.read_from_string(yaml)
 {:ok, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}}
 ```
 
 ### Parsing a file
 
 ```elixir
-iex(1)> path = Path.join(File.cwd!(), "test/fixtures/flat.yml")
-"/Users/squixy/Desktop/yaml-elixir/test/fixtures/flat.yml"
-iex(2)> YamlElixir.read_from_file(path)
+path = Path.join(File.cwd!(), "test/fixtures/flat.yml")
+"/Users/KamilLelonek/Development/yaml-elixir/test/fixtures/flat.yml"
+YamlElixir.read_from_file(path)
 {:ok, %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => []}}
 ```
 
@@ -64,16 +64,16 @@ values.
 If you prefer to autodetect keys and values that begin with `:` as atoms, this can be accomplished by passing `atoms: true` as an option to any of the `read_*` functions.
 
 ```elixir
-iex(1)> yaml = """
-...(1)>   a: a
-...(1)>   b: 1
-...(1)>   c: true
-...(1)>   d: ~
-...(1)>   e: nil
-...(1)>   :f: :atom
-...(1)> """
+yaml = """
+  a: a
+  b: 1
+  c: true
+  d: ~
+  e: nil
+  :f: :atom
+"""
 "  a: a\n  b: 1\n  c: true\n  d: ~\n  e: nil\n"
-iex(2)> YamlElixir.read_from_string(yaml, atoms: true)
+YamlElixir.read_from_string(yaml, atoms: true)
 {:ok, %{:f => :atom, "a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => "nil"}}
 ```
 
@@ -156,19 +156,19 @@ In case your YAML contains [anchors](http://blogs.perl.org/users/tinita/2019/05/
 
 ```elixir
 yaml = """
-yaml:
   foo: &foo
     bar: 42
   baz:
-    << *foo
+    <<: *foo
 """
+"  foo: &foo\n    bar: 42\n  baz:\n    <<: *foo\n"
 YamlElixir.read_from_string(yaml, merge_anchors: true)
 ```
 
 will result in
 
 ```elixir
-%{ "yaml" => %{ "foo" => %{ "bar" => 42 }, "baz" => %{ "bar" => 42 } } }
+%{"yaml" => %{"foo" => %{"bar" => 42}, "baz" => %{"bar" => 42}}}
 ```
 
 ## Mix tasks
