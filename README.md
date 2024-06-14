@@ -199,6 +199,7 @@ In case of any problems or suggestions do not hesitate and create a pull request
 - [kianmeng](https://github.com/kianmeng)
 - [floriank](https://github.com/floriank)
 - [coryodaniel](https://github.com/coryodaniel)
+- [simonmcconnell](https://github.com/simonmcconnell)
 
 ## Copyright and License
 
