@@ -3,7 +3,7 @@ defmodule YamlElixir.Node.KeywordList do
 
   import YamlElixir.Records, only: :macros
 
-  @tag 'tag:yaml_elixir,2019:keyword_list'
+  @tag ~c"tag:yaml_elixir,2019:keyword_list"
 
   def tags, do: [@tag]
 
@@ -20,7 +20,7 @@ defmodule YamlElixir.Node.KeywordList do
   end
 
   def construct_token(_, unfinished_node() = node, yamerl_mapping_key() = _token) do
-    node = unfinished_node(node, priv: {'$expecting_key', unfinished_node(node, :priv)})
+    node = unfinished_node(node, priv: {~c"$expecting_key", unfinished_node(node, :priv)})
 
     {:unfinished, node, false}
   end
@@ -52,12 +52,12 @@ defmodule YamlElixir.Node.KeywordList do
     node =
       case unfinished_node(node, :path) do
         {:keyword_list, :undefined} ->
-          {'$expecting_key', keyword_list} = unfinished_node(node, :priv)
+          {~c"$expecting_key", keyword_list} = unfinished_node(node, :priv)
 
           unfinished_node(node, path: {:keyword_list, value}, priv: {value, keyword_list})
 
         {:keyword_list, _} ->
-          {key, '$expecting_value', keyword_list} = unfinished_node(node, :priv)
+          {key, ~c"$expecting_value", keyword_list} = unfinished_node(node, :priv)
 
           unfinished_node(node,
             path: {:keyword_list, :undefined},
