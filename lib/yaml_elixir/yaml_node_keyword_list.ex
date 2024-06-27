@@ -27,7 +27,7 @@ defmodule YamlElixir.Node.KeywordList do
 
   def construct_token(_, unfinished_node() = node, yamerl_mapping_value() = _token) do
     {key, keyword_list} = unfinished_node(node, :priv)
-    node = unfinished_node(node, priv: {key, '$expecting_value', keyword_list})
+    node = unfinished_node(node, priv: {key, ~c"$expecting_value", keyword_list})
 
     {:unfinished, node, false}
   end
