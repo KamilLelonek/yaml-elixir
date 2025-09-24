@@ -203,7 +203,7 @@ In case of any problems or suggestions do not hesitate and create a pull request
 
 ## Copyright and License
 
-Copyright (c) 2022 Kamil Lelonek
+Copyright (c) 2025 Kamil Lelonek
 
 This library is MIT licensed. See the
 [LICENSE](https://github.com/KamilLelonek/yaml-elixir/blob/master/LICENSE.txt) for details.
