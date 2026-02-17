@@ -1,0 +1,27 @@
+name: Publish the package to Hex
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v6
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.19"
+          otp-version: "28"
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Publish to Hex.pm
+        uses: hipcall/github_action_publish_hex@v1
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
