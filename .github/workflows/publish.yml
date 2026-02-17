@@ -22,6 +22,9 @@ jobs:
       - name: Install and compile dependencies
         run: mix deps.get + deps.compile
 
+      - name: Build the package
+        run: mix hex.build
+
       - name: Publish to Hex.pm
         run: mix hex.publish --yes
         env:
