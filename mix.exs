@@ -2,13 +2,13 @@ defmodule YamlElixir.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/KamilLelonek/yaml-elixir"
-  @version "2.12.0"
+  @version "2.12.1"
 
   def project do
     [
       app: :yaml_elixir,
       version: @version,
-      elixir: "~> 1.18",
+      elixir: "~> 1.17",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),
