@@ -33,18 +33,20 @@ defmodule YamlElixir.Node.KeywordList do
   end
 
   def construct_token(constr, unfinished_node() = node, yamerl_collection_end() = _token) do
+    pairs = Enum.reverse(unfinished_node(node, :priv))
+
     if yamerl_constr(constr, :detailed_constr) do
       node =
         yaml_elixir_keyword_list(
           module: __MODULE__,
           tag: @tag,
           pres: unfinished_node(node, :pres),
-          pairs: unfinished_node(node, :priv)
+          pairs: pairs
         )
 
       {:finished, node}
     else
-      {:finished, unfinished_node(node, :priv)}
+      {:finished, pairs}
     end
   end
 
