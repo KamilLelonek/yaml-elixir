@@ -1,5 +1,4 @@
 defmodule YamlElixir.Node.KeywordList do
-  require Record
 
   import YamlElixir.Records, only: :macros
 
