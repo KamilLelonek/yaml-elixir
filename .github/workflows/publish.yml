@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "*"
+      - "v*"
 
 jobs:
   publish:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
@@ -19,8 +21,28 @@ jobs:
           version-file: .tool-versions
           version-type: strict
 
+      - name: Verify release version
+        run: |
+          VERSION=$(grep '^  @version "' mix.exs | sed 's/.*"\(.*\)".*/\1/')
+
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            TAG="${GITHUB_REF#refs/tags/v}"
+            if [ "$TAG" != "$VERSION" ]; then
+              echo "Tag v$TAG does not match mix.exs version $VERSION"
+              exit 1
+            fi
+          else
+            if ! git tag --points-at HEAD | grep -qx "v$VERSION"; then
+              echo "HEAD is not tagged as v$VERSION; refusing to publish"
+              exit 1
+            fi
+          fi
+
       - name: Install and compile dependencies
         run: mix deps.get + deps.compile
+
+      - name: Run tests
+        run: mix test
 
       - name: Build the package
         run: mix compile + hex.build

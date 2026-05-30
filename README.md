@@ -1,6 +1,6 @@
 # YAML Parser for Elixir
 
-[![Build Status](https://travis-ci.org/KamilLelonek/yaml-elixir.svg)](https://travis-ci.org/KamilLelonek/yaml-elixir)
+[![CI](https://github.com/KamilLelonek/yaml-elixir/actions/workflows/ci.yml/badge.svg)](https://github.com/KamilLelonek/yaml-elixir/actions/workflows/ci.yml)
 [![Module Version](https://img.shields.io/hexpm/v/yaml_elixir.svg)](https://hex.pm/packages/yaml_elixir)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/yaml_elixir/)
 [![Total Download](https://img.shields.io/hexpm/dt/yaml_elixir.svg)](https://hex.pm/packages/yaml_elixir)

@@ -33,7 +33,7 @@ defmodule YamlElixir.Mixfile do
 
   defp package do
     [
-      files: ["lib", "config", "mix.exs", "README.md"],
+      files: ["lib", "config", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Kamil Lelonek"],
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url}

@@ -1,0 +1,42 @@
+name: Tag on version bump
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Tag if version is newer than latest tag
+        run: |
+          CURRENT=$(grep '^  @version "' mix.exs | sed 's/.*"\(.*\)".*/\1/')
+          LATEST_TAG=$(git tag --list 'v*' --sort=-version:refname | head -1 | sed 's/^v//')
+
+          if git rev-parse "v$CURRENT" >/dev/null 2>&1; then
+            echo "Tag v$CURRENT already exists"
+            exit 0
+          fi
+
+          if [ -n "$LATEST_TAG" ] && [ "$CURRENT" = "$LATEST_TAG" ]; then
+            echo "Version $CURRENT matches latest tag"
+            exit 0
+          fi
+
+          if [ -n "$LATEST_TAG" ] && [ "$(printf '%s\n' "$LATEST_TAG" "$CURRENT" | sort -V | tail -1)" != "$CURRENT" ]; then
+            echo "Version $CURRENT is not newer than latest tag v$LATEST_TAG"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v$CURRENT"
+          git push origin "v$CURRENT"
