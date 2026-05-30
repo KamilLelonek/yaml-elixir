@@ -16,14 +16,13 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: "1.19"
-          otp-version: "28"
+          version-file: .tool-versions
 
       - name: Install and compile dependencies
         run: mix deps.get + deps.compile
 
       - name: Build the package
-        run: mix hex.build
+        run: mix compile + hex.build
 
       - name: Publish to Hex.pm
         run: mix hex.publish --yes
