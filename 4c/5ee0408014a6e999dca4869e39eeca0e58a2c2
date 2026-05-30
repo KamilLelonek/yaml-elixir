@@ -1,0 +1,19 @@
+mix.exs
+  s_90a71bd9b7fecf::t_b51f4269584022 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "4c5ee0408014a6e999dca4869e39eeca0e58a2c2",
+  "prompts": {},
+  "sessions": {
+    "s_90a71bd9b7fecf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85594806-ed57-423c-9379-1a5567c3a73b",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Kamil Lelonek <kamil@lelonek.me>"
+    }
+  }
+}
