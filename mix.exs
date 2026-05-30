@@ -2,7 +2,7 @@ defmodule YamlElixir.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/KamilLelonek/yaml-elixir"
-  @version "2.12.1"
+  @version "2.12.2"
 
   def project do
     [
