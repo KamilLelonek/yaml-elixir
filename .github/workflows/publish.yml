@@ -17,6 +17,7 @@ jobs:
         uses: erlef/setup-beam@v1
         with:
           version-file: .tool-versions
+          version-type: strict
 
       - name: Install and compile dependencies
         run: mix deps.get + deps.compile
