@@ -1,0 +1,33 @@
+.github/workflows/publish.yml
+  s_4ceded5d12e224::t_31486e4a870537 7,15-16,24-40,44-45
+.github/workflows/ci.yml
+  s_4ceded5d12e224::t_472e7717e4047b 1-26
+.github/workflows/tag.yml
+  h_66270d9302feee 1-7,11-20,22,37
+  s_4ceded5d12e224::t_3f14a404254623 8-10,21,23-36,38-42
+mix.exs
+  s_4ceded5d12e224::t_5429d55c1fd34d 36
+README.md
+  s_4ceded5d12e224::t_d55727c26d47b1 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5222b40d0dd21dfcd1b870344a216f0a33f123c2",
+  "prompts": {},
+  "humans": {
+    "h_66270d9302feee": {
+      "author": "Kamil Lelonek <kamil@lelonek.me>"
+    }
+  },
+  "sessions": {
+    "s_4ceded5d12e224": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a490e65a-3046-450b-b889-c1c1583b8fba",
+        "model": "default"
+      },
+      "human_author": "Kamil Lelonek <kamil@lelonek.me>"
+    }
+  }
+}
