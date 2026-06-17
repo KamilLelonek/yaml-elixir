@@ -117,14 +117,20 @@ This will return:
 %{"prod" => %{"foo" => [{"bar", "foo"}, {"foo", "bar"}]}}
 ```
 
-Note that due to a quirk in how `yamerl` parses YAML documents, using the flow style with
-this tag will not work. Do not expect your document to be processed if you write your
-YAML like this:
+It also works for maps defined with curly braces:
 
 ```yaml
 prod:
   foo: !<tag:yaml_elixir,2019:keyword_list> {foo: bar, bar: foo}
 ```
+
+which produces the same as above result.
+
+Notice that empty keyword lists are indistinguishable from empty arrays,
+so to distinguish those an `empty_keyword_list: <term>` option can be used.
+By default `[]` is used but any other value can be used instead,
+notably `[{}]` which works well with List.keyfind/3 and :proplist.get_value
+which are often used to lookup data in such data structures.
 
 ### Elixir Sigil
 

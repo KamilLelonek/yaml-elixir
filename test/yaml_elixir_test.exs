@@ -5,8 +5,19 @@ defmodule YamlElixirTest do
     assert_parse_file("blank", %{})
   end
 
+  test "should parse blank file as keywords" do
+    assert_parse_file("blank", [], maps_as_keywords: true)
+  end
+
   test "should parse empty file" do
     assert_parse_file("empty", %{})
+  end
+
+  test "should parse empty file as keywords" do
+    assert_parse_file("empty", [{}],
+      maps_as_keywords: true,
+      empty_keyword_list: [{}]
+    )
   end
 
   test "should parse flat file" do
@@ -26,6 +37,15 @@ defmodule YamlElixirTest do
       "flat",
       %{"a" => "a", "b" => 1, "c" => true, "d" => nil, "e" => [], :f => :atom, "g" => 88.0},
       atoms: true
+    )
+  end
+
+  test "should parse flat file with atoms as keywords" do
+    assert_parse_file(
+      "flat",
+      [{"a", "a"}, {"b", 1}, {"c", true}, {"d", nil}, {"e", []}, {:f, :atom}, {"g", 88.0}],
+      atoms: true,
+      maps_as_keywords: true
     )
   end
 
@@ -52,6 +72,14 @@ defmodule YamlElixirTest do
     assert_parse_string("", %{})
   end
 
+  test "should parse string with empty object" do
+    assert_parse_string("{}", %{})
+  end
+
+  test "should parse string with empty object as keywords" do
+    assert_parse_string("{}", [], maps_as_keywords: true)
+  end
+
   test "should parse flat string" do
     yaml = """
       a: a
@@ -60,6 +88,7 @@ defmodule YamlElixirTest do
       d: ~
       e: nil
       f: 1.2
+      h: {}
     """
 
     assert_parse_string(yaml, %{
@@ -68,8 +97,23 @@ defmodule YamlElixirTest do
       "c" => true,
       "d" => nil,
       "e" => "nil",
-      "f" => 1.2
+      "f" => 1.2,
+      "h" => %{}
     })
+
+    assert_parse_string(
+      yaml,
+      [
+        {"a", "a"},
+        {"b", 1},
+        {"c", true},
+        {"d", nil},
+        {"e", "nil"},
+        {"f", 1.2},
+        {"h", []}
+      ],
+      maps_as_keywords: true
+    )
   end
 
   test "should parse nested string" do
@@ -265,7 +309,7 @@ defmodule YamlElixirTest do
   test "should receive keyword list when used `maps_as_keywords` option" do
     assert_parse_file(
       "nested",
-      [{"test", [{"foo", "baz"}]}, {"dev", [{"foo", "bar"}]}, {"prod", [{"foo", "foo"}]}],
+      [{"prod", [{"foo", "foo"}]}, {"dev", [{"foo", "bar"}]}, {"test", [{"foo", "baz"}]}],
       maps_as_keywords: true
     )
   end
@@ -273,7 +317,14 @@ defmodule YamlElixirTest do
   test "should receive keyword list of keyword lists when used `maps_as_keywords` option and parsing nested map" do
     assert_parse_file(
       "nested_map",
-      [{"prod", [{"test", [{"foo", "baz"}]}, {"dev", [{"foo", "bar"}]}, {"foo", "foo"}]}],
+      [
+        {"prod",
+         [
+           {"foo", "foo"},
+           {"dev", [{"foo", "bar"}]},
+           {"test", [{"foo", "baz"}]}
+         ]}
+      ],
       maps_as_keywords: true
     )
   end
@@ -283,7 +334,7 @@ defmodule YamlElixirTest do
       "keyword_list",
       %{
         "prod" => %{
-          "foo" => [{"bar", "foo"}, {"foo", "bar"}],
+          "foo" => [{"foo", "bar"}, {"bar", "foo"}],
           "bar" => %{"foo" => "bar", "bar" => "foo"}
         }
       },
@@ -291,10 +342,33 @@ defmodule YamlElixirTest do
     )
   end
 
+  test "should receive map as keyword list when JSON-style map is tagged" do
+    assert_parse_string(
+      """
+      prod:
+        foo: !<tag:yaml_elixir,2019:keyword_list> {foo: bar, bar: foo}
+      """,
+      %{"prod" => %{"foo" => [{"foo", "bar"}, {"bar", "foo"}]}},
+      node_mods: [YamlElixir.Node.KeywordList]
+    )
+  end
+
+  test "should receive empty keyword list when JSON-style map is tagged" do
+    assert_parse_string(
+      """
+      prod:
+        foo: !<tag:yaml_elixir,2019:keyword_list> {}
+      """,
+      %{"prod" => %{"foo" => [:empty]}},
+      node_mods: [YamlElixir.Node.KeywordList],
+      empty_keyword_list: [:empty]
+    )
+  end
+
   test "should receive a single map entry with a keyword list as its value" do
     assert_parse_file(
       "single_value_keyword_list",
-      %{"prod" => [{"bar", "foo"}, {"foo", "bar"}]},
+      %{"prod" => [{"foo", "bar"}, {"bar", "foo"}]},
       node_mods: [YamlElixir.Node.KeywordList]
     )
   end
@@ -353,6 +427,84 @@ defmodule YamlElixirTest do
         "default" => %{["publish", "disable"] => "CoreAPI", ["search"] => "IndexerAPI"},
         "storeAPI" => %{["fetch", "save", "update", "delete"] => "StoreAPI"}
       },
+      merge_anchors: true
+    )
+  end
+
+  test "should merge complex anchors with keywords" do
+    assert_parse_file(
+      "anchors",
+      [
+        {"default",
+         [
+           {["publish", "disable"], "CoreAPI"},
+           {["search"], "IndexerAPI"}
+         ]},
+        {"storeAPI",
+         [
+           {["fetch", "save", "update", "delete"], "StoreAPI"}
+         ]},
+        {"ctrl",
+         [
+           {"smartcontract",
+            [
+              {["validate", "start", "stop", "cancel"], "BPAPI"},
+              {["fetch", "save", "update", "delete"], "StoreAPI"},
+              {["publish", "disable"], "CoreAPI"},
+              {["search"], "IndexerAPI"}
+            ]}
+         ]}
+      ],
+      merge_anchors: true,
+      maps_as_keywords: true
+    )
+  end
+
+  test "should merge multilevel anchors" do
+    assert_parse_string(
+      """
+      a: &a
+        a: 1
+      b: &b
+        a: 2
+        b: 2
+        <<: *a
+      c:
+        a: 3
+        b: 3
+        c: 3
+        <<: *a
+        <<: *b
+      """,
+      %{
+        "a" => %{"a" => 1},
+        "b" => %{"a" => 1, "b" => 2},
+        "c" => %{"a" => 1, "b" => 2, "c" => 3}
+      },
+      merge_anchors: true
+    )
+  end
+
+  test "should merge multilevel anchors with keyword list" do
+    assert_parse_string(
+      """
+      a: &a
+        a: 1
+      b: &b
+        b: 2
+        <<: *a
+      c: !<tag:yaml_elixir,2019:keyword_list>
+        c: 3
+        <<: *a
+        <<: *b
+        d: {d: 4}
+      """,
+      %{
+        "a" => %{"a" => 1},
+        "b" => %{"a" => 1, "b" => 2},
+        "c" => [{"c", 3}, {"a", 1}, {"b", 2}, {"a", 1}, {"d", %{"d" => 4}}]
+      },
+      node_mods: [YamlElixir.Node.KeywordList],
       merge_anchors: true
     )
   end

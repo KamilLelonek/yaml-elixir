@@ -6,14 +6,14 @@ defmodule YamlElixir.Records do
     Record.extract(:yamerl_constr, from_lib: "yamerl/include/internal/yamerl_constr.hrl")
   )
 
-  # Unable to extract here since the record defined in Erlang uses an Erlang macro
-  # which breaks the extraction.
   Record.defrecord(
     :unfinished_node,
-    module: nil,
-    path: nil,
-    pres: nil,
-    priv: nil
+    Record.extract(
+      :unfinished_node,
+      from_lib: "yamerl/include/internal/yamerl_constr.hrl",
+      # https://www.erlang.org/doc/apps/stdlib/epp.html#parse_file/2
+      macros: [{:MODULE, nil, :redefine}]
+    )
   )
 
   Record.defrecord(
